@@ -11,7 +11,7 @@ foreach url ($*)
         echo $file already present, not trying again
 	continue
     endif
-    if (-e /usr/bin/wget) then
+    if (-e /usr/bin/wget || -e /usr/local/bin/wget) then
 	wget -c $url
     else if (-e /usr/bin/curl) then
         curl $url -o $file
