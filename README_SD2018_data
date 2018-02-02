@@ -1,0 +1,64 @@
+Tutorials
+---------
+
+Tutorial session 1: ALMA single dish reduction in CASA
+Tutorial session 2: bolometer data reduction in BoA & Scanamorphos
+Tutorial session 3: reduction of spectral line data in CLASS
+Tutorial session 4: combination of single dish and interferometry data
+Tutorial session 5: combination of single dish and interferometry data
+
+
+Data needed for M100 tutorials (SD and combination) 
+---------------------------------------------------
+
+For EA use:  https://alma-dl.mtk.nao.ac.jp/ftp/alma/sciver
+    EU use:  https://almascience.eso.org/almadata/sciver
+    NA use:  https://bulk.cv.nrao.edu/almadata/sciver
+
+For 12m use directory:     M100Band3_12m
+For 7m/TP use directory:   M100Band3ACA
+
+ e.g. wget https://bulk.cv.nrao.edu/almadata/sciver/M100Band3_12m/M100_Band3_12m_CalibrationScripts.tgz
+      wget https://bulk.cv.nrao.edu/almadata/sciver/M100Band3ACA/M100_Band3_7m_CalibrationScripts.tgz
+
+But once we have assigned data to tutorials, we can maek the final list of wget commands students need.
+
+
+
+M100Band3_12m/
+      M100_Band3_12m_CalibratedData.tgz                          16-Jul-2015 21:46   15G     Tutorial 4/5
+      M100_Band3_12m_CalibrationScripts.tgz                      31-Mar-2017 10:39  6.5K  
+      M100_Band3_12m_Imaging.py                                  20-Jul-2015 22:42  6.7K
+      M100_Band3_12m_Readme                                      27-Jul-2015 12:59  2.9K  
+      M100_Band3_12m_Readme_CASA3.3                              27-Jul-2015 12:59  2.4K  
+      M100_Band3_12m_ReferenceImages.tgz                         19-Jul-2015 02:40  250M  
+      M100_Band3_12m_UncalibratedData.tgz                        05-Jul-2015 17:46  8.5G  
+      M100_Band3_CalibratedData_CASA3.3.tgz                      30-Dec-2011 11:49  2.1G  
+      M100_Band3_Calibration_CASA3.3.py                          30-Dec-2011 11:14   16K  
+      M100_Band3_Imaging_CASA3.3.py                              30-Dec-2011 11:14  4.4K  
+      M100_Band3_ReferenceImages_CASA3.3.tgz                     30-Dec-2011 11:44   30M  
+      M100_Band3_UnCalibratedMSAndTablesForReduction_CASA3.3.tgz 30-Dec-2011 11:44   13G
+
+ M100Band3ACA/
+      M100_Band3_7m_CalibratedData.tgz                           16-Jul-2015 21:34  4.8G     Tutorial 4/5
+      M100_Band3_7m_CalibrationScripts.tgz                       31-Mar-2017 10:13  8.2K  
+      M100_Band3_7m_Imaging.py                                   20-Jul-2015 22:43  7.3K  
+      M100_Band3_7m_UncalibratedData.tgz                         05-Jul-2015 16:54  5.5G  
+      M100_Band3_ACA_Readme                                      27-Jul-2015 12:59  5.7K  
+      M100_Band3_ACA_ReferenceImages.tgz                         20-Jul-2015 22:01   20M     Tutorial 4/5
+      M100_Band3_DataComb_ReferenceImages.tgz                    20-Jul-2015 22:11  336M  
+      M100_Band3_TP_CalibratedData.tgz                           19-Jul-2015 03:59  6.8G     Tutorial 1    ???
+      M100_Band3_TP_UncalibratedData.tgz                         05-Jul-2015 16:47  5.4G     Tutorial 1    ???
+      M100_Band3_TP_ampcal_UncalibratedData.tgz                  19-Jul-2015 01:06  4.6G  
+
+
+
+Final list for all tutorials
+----------------------------
+
+https://almascience.eso.org/almadata/sciver/M100Band3_12m/M100_Band3_12m_CalibratedData.tgz     Tutorial 4/5
+https://almascience.eso.org/almadata/sciver/M100Band3ACA/M100_Band3_7m_CalibratedData.tgz       Tutorial 4/5
+https://almascience.eso.org/almadata/sciver/M100Band3ACA/M100_Band3_ACA_ReferenceImages.tgz     Tutorial 4/5
+http://admit.astro.umd.edu/~teuben/TP2VIS/skymodel.fits                                         Tutorial 4/5
+http://admit.astro.umd.edu/~teuben/TP2VIS/skymodel.ptg                                          Tutorial 4/5
+http://admit.astro.umd.edu/~teuben/TP2VIS/workflow6_data.tar.gz                                 Tutorial 4/5
