@@ -1,0 +1,56 @@
+#! /bin/csh -f
+#
+#   install a Miniconda python with the right tools for sd2018
+#   This takes about 2 mins for the basic python
+# 
+#
+#   2-feb-2018  Peter Teuben      initial version written
+#
+
+#   make  it work for Linux and Darwin (MacOSX)
+set uname = `uname -s`
+if ($uname == Darwin) set uname = MacOSX
+
+#   pick the python version (2 or 3)
+set p = 3
+
+#   set the basics
+set url  = https://repo.continuum.io/miniconda
+set file = Miniconda$p-latest-$uname-x86_64.sh
+set root = `pwd`/miniconda$p
+
+#   ensure not to overwrite something existing
+if (-d $root) then
+  echo Cannot proceed with install, $root exists
+  exit 0
+endif
+
+#   grab the right miniconda
+if (! -e $file) then
+   if ($uname == Linux) then
+     wget $url/$file
+   else
+     curl $url/$file > $file
+   endif
+endif
+
+#  note this style install doesn't modify your local .bashrc (linux) or .bash_profile  (mac)
+bash $file -b -p $root
+
+set path = ($root/bin $path)
+rehash
+
+# other useful things 
+yes | conda install ipython numpy scipy matplotlib notebook astropy jupyter
+
+# stuff for SD2018
+
+pip install spectral_cube               # radio-beam, spectral-cube
+pip install pvextractor
+pip install image_registration          # FITS-tools, image-registration
+
+# uvcombine
+(git clone https://github.com/radio-astro-tools/uvcombine     ; cd uvcombine;    python setup.py install)
+
+# statcont
+(git clone https://github.com/radio-astro-tools/statcont;     ; cd statcont;     python setup.py install)
