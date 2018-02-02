@@ -1,0 +1,21 @@
+#! /bin/csh -f
+#
+#  all Mac's come with curl
+#  all Linux' come with wget
+#
+#  go figure
+
+foreach url ($*)
+    set file = $url:t
+    if (-e $file) then
+        echo $file already present, not trying again
+	continue
+    endif
+    if (-e /usr/bin/wget) then
+	wget -c $url
+    else if (-e /usr/bin/curl) then
+        curl $url -o $file
+    else
+	echo $file : no wget or curl found in /usr/bin. find something else
+    endif
+end
