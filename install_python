@@ -37,8 +37,10 @@ endif
 #  note this style install doesn't modify your local .bashrc (linux) or .bash_profile  (mac)
 bash $file -b -p $root
 
-set path = ($root/bin $path)
-rehash
+set path = ($root/bin $path); rehash
+
+echo 'set path = ('$root'/bin $path); rehash' > sd2018_start.csh
+echo 'export PATH='$root'/bin:$PATH'          > sd2018_start.sh
 
 # other useful things 
 yes | conda install ipython numpy scipy matplotlib notebook astropy jupyter
