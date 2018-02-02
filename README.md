@@ -1,6 +1,8 @@
 # sd2018
 
-material for the [SD2018](https://www.eso.org/sci/meetings/2018/SingleDish2018.html) workshop
+material for the [SD2018](https://www.eso.org/sci/meetings/2018/SingleDish2018.html) workshop,
+please note that until published, nothing is final here, as the tutorials and talks are still
+under discussion. Officially registration was closed on Feb 1, 2018.
 
 
 ## Software needed
