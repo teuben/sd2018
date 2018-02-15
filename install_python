@@ -6,6 +6,10 @@
 #
 #   2-feb-2018  Peter Teuben      initial version written
 #
+#
+#  TODO's:
+#  - test to check if everything was installed properly and working ok
+#  - git submodules?
 
 #   make  it work for Linux and Darwin (MacOSX)
 set uname = `uname -s`
@@ -63,3 +67,5 @@ pip install reproject                   # astropy-healpix-0.2 reproject-0.4
 (git clone https://github.com/radio-astro-tools/statcont;     ; cd statcont;     python setup.py install)
 
 # https://github.com/radio-astro-tools/uvcombine/issues/14  
+
+
