@@ -55,7 +55,7 @@ pip install spectral_cube               # radio-beam, spectral-cube
 pip install pvextractor
 pip install image_registration          # FITS-tools, image-registration
 pip install reproject                   # astropy-healpix-0.2 reproject-0.4
-
+pip install aplpy
 
 # image_tools
 (git clone https://github.com/keflavich/image_tools           ; cd image_tools ;  python setup.py install)
