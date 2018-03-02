@@ -1,0 +1,458 @@
+***************************************************************************
+
+                         Installation guidelines
+                       $Date: 2018/02/19 14:06:10 $
+
+***************************************************************************
+
+ Table of contents:
+
+    I - ABOUT
+
+    II - DOWNLOAD
+      1) Retrieving sources from GILDAS homepage
+      2) Retrieving sources from CVS repository
+      3) Retrieving binaries from GILDAS homepage
+      4) Retrieving documentation from GILDAS homepage
+
+    III - REQUIREMENTS
+      1) Material
+      2) Needed tools to build executables
+      3) Needed tools to build the documentation
+
+    IV - INSTALL UNDER MAC OSX
+      1) MacPorts package
+      2) Installation from sources
+      3) Troubleshooting
+
+    V - INSTALL UNDER LINUX
+      1) Dependencies
+      2) Compile and install (binaries)
+      3) Post-installation (binaries)
+      4) Compile and/or install (documentation)
+      5) Troubleshooting
+
+    VI - INSTALL UNDER MS WINDOWS
+      1) MicroSoft Installer (binary distribution)
+      2) Installation from sources under Cygwin
+
+    VII - UNINSTALL UNDER LINUX
+
+***************************************************************************
+
+I - ABOUT
+----------
+
+  Please contact gildas<at>iram.fr for any question, remark,
+  suggestion.
+
+***************************************************************************
+
+II - DOWNLOAD
+--------------
+
+  1) Retrieving sources from GILDAS homepage:
+
+     Linux/OSX version of GILDAS are distributed only as sources
+     because binaries are not portable (due to the many different
+     possible combinations of processors, operating system and
+     compilers). Tarballs of the GILDAS sources are distributed at the
+     address:
+       http://www.iram.fr/~gildas/dist/
+     You have to pick a tarball named gildas-src-mmmyyv.tar.gz. Some
+     hints:
+     - VERSION: the basic rule to pick up a release is to download and
+       install the latest monthly release available on this
+       area. Daily releases are there just as a convenience for beta
+       testers. We strongly discourage standard user to get them.
+     - LABELLING: the suffix 'a', 'b', 'c' and so on indicates that an
+       important bug fix or feature has been added during the month
+       and this could not wait for the new release at the beginning of
+       next month. Such new releases include only these modifications,
+       and not all the on-going developpements. Check the NEWS section
+       for details on the augmented release.
+     - STABILITY: Developpers usually stabilize (if needed) Gildas
+       before each release. Nevertheless, some developments take time
+       and in such a case monthly releases may be skipped. From time
+       to time some releases are suffixed "beta": this indicates that
+       important developments were done and this version is a
+       candidate for a stable release. It is "stable as far as we
+       know", but not tested enough.
+     - REFERENCE VERSION: Finally, the may17 release (May 2017) is a
+       particular version used at the telescopes. If a newer version
+       is available, standard users should not install the may17 one,
+       unless they have been told to. There are bug fixes,
+       improvements, and features which have been added in the latest
+       releases, but which won't be in the may17 release because they
+       do not affect the operations at the telescopes.
+
+  2) Retrieving sources from CVS repository:
+
+     Get the last monthly version from the CVS repository
+       shell-prompt> cvs -d :pserver:anonymous@netsrv1.iram.fr:/CVS/GILDAS \
+                     co -N -d gildas-src-mmmyy -r mmmyy gildas
+     This command creates the sources of GILDAS in a new
+     gildas-src-mmmyy directory. The "-r mmmyy" switch enable you to
+     choose the monthly release you need. Be careful, you here need
+     only the 3 first letters of the current month and the last two
+     digits of the current year. No letter is required: you will
+     automatically end up with the last bug fix of this monthly
+     release.
+
+  3) Retrieving binaries from GILDAS homepage:
+
+     A self-extracting MS Windows binary distribution (including
+     documentation) of the whole GILDAS package is available at
+     http://www.iram.fr/~gildas/dist/ . Please follow the dedicated
+     installation guide hereafter.
+
+  4) Retrieving documentation from GILDAS homepage:
+
+     Compiled documentation is distributed as tarballs at the address:
+       http://www.iram.fr/~gildas/dist/
+     You have to pick a tarball named gildas-doc-mmmyy.tar.gz
+
+***************************************************************************
+
+III - REQUIREMENTS
+-------------------
+
+  1) Material:
+
+     Building the GILDAS binaries under Linux or Mac OSX requires
+     about 300 MB of temporary disk space (compilation) and 100 MB of
+     permanent disk space (installation).
+
+  2) Needed tools to build executables:
+
+     Successful building of GILDAS binaries on a UNIX/Linux/OSX system
+     minimally requires:
+     - Bourne compatible shell (sh, ksh, bash, etc...) for build purpose
+       only. The end-users can then use the GILDAS programs from csh-like or
+       Bourne-like shells.
+     - NROFF for on-line help building.
+     - Perl for automatic interface extraction during compilation process.
+     - A C compiler (either GCC or the native C compiler).
+     - GNU make:
+       The current building system is using the GNU make facility which has
+       some some desirable but non-portable features (i.e. including
+       makefiles, conditions). This does not seem a strong limitation as it is
+       easy to install GNU make for your system. In fact, GNU make is the
+       default for linux boxes. For others OS, just try to type gmake instead
+       of make: it is probably already installed.
+     - A FORTRAN 90/95/2003 compiler:
+       Latest GNU Fortran (gfortran >= 4.4) and Intel Fortran Compiler
+       (ifort >= 9.0) are supported.
+     - GTK 2 development tools for graphic and widget support.
+
+  3) Needed tools to build the documentation:
+
+     Successful building of PDF/HTML documentation minimally requires
+     recent versions of:
+     - ps2epsi
+     - epstopdf
+     - latex (version 2e with makeidx, graphicx and html package)
+     - latex2html
+     - pdflatex
+     For your convenience, we distribute compiled PDF/HTML
+     documentation in case you do not have those tools. See the
+     distribution section of the GILDAS web page:
+     http://www.iram.fr/~gildas/dist/
+
+***************************************************************************
+
+IV - INSTALL UNDER MAC OSX
+---------------------------
+
+  Gildas and its dependencies can be installed with MacPorts. The Fink
+  package is now obsolete.
+
+  1) MacPorts package:
+
+     Gildas is available in the MacPorts (www.macports.org)
+     distribution. Unless you are an advanced user (see below:
+     Installation from sources), this is the recommended way to
+     install Gildas under Mac OSX. Gildas installation with MacPorts
+     is straightforward. Once MacPorts is installed
+     (https://www.macports.org/install.php), type:
+        sudo port install gildas
+     The Gildas programs are ready to use right after (type e.g.
+     "greg" in a terminal prompt).
+     The MacPorts Gildas package is maintained by Sebastien Maret
+     (http://ipag.obs.ujf-grenoble.fr/~marets/) on a regular basis.
+     Usually the package is updated a few days after a source release,
+     so that the latest enhancements or bug fixes in Gildas are
+     quickly available to Mac users. Updating to the newest release
+     is done with the command:
+        sudo port upgrade gildas
+     You might need to update MacPorts itself first:
+        sudo port selfupdate
+
+  2) Installation from sources:
+
+     As an alternate solution, it is possible to install first Gildas
+     dependencies using MacPorts. You will find the MacPorts dmg image
+     on http://www.macports.org/install.php
+     - Note that MacPorts requires Xcode which you can get from
+       https://developer.apple.com/xcode/ with an Apple identifier
+       (more than 1 GB to be downloaded from the app store). Xquartz
+       is also needed for Gildas plots (http://xquartz.macosforge.org)
+     - Installing the dependencies:
+          shell> sudo port install gcc6
+          shell> sudo port select gcc # show available arguments
+          shell> sudo port select gcc mp-gcc6  # Choose the desired one
+          shell> sudo port install gtk2
+          shell> sudo port install pkgconfig
+     - Optionally, you can install the FFTW3 libraries. However, by
+       default, MacPorts does not install the Fortran entry points to
+       these libraries. You have to ask for them explicitly by
+       requesting the appropriate "variant". Have a look at:
+          shell> sudo port variants fftw-3-single
+       Choose the one which matches the gcc/gfortran version selected
+       above, e.g.
+          shell> sudo port install fftw-3-single +gcc6
+     - CFITSIO (needed only for the 30m calibration softwares) suffers
+       the same problem. Have a look at:
+          shell> sudo port variants cfitsio
+       Then install the correct "variant" e.g.
+          shell> sudo port install cfitsio +gcc6
+     - Finally you can follow the standard Linux steps to compile
+       Gildas from the sources (see below).
+
+  3) Troubleshooting:
+
+     - If you have problem with rsync when running "sudo port
+       selfupdate", you can modify the file
+       /opt/local/etc/macports/sources.conf by replacing the line:
+          rsync://rsync.macports.org/release/ports/ [default]
+       with:
+          #rsync://rsync.macports.org/release/ports/ [default]
+          http://www.macports.org/files/ports.tar.gz [default]
+       and run "sudo port sync" instead of "sudo port selfupdate".
+          shell> sudo port install gcc6
+          shell> sudo port install gtk2
+          shell> sudo port select gcc # show available arguments
+          shell> sudo port select gcc mp-gcc6
+     - Mac OSX 10.7 (Lion) users: if possible, try to avoid to install
+       Python from MacPorts. If installed, you might experience this
+       bug when the Gildas-Python binding is started at runtime. If
+       so, you should configure your system to prefer the Apple-Python
+       rather than the MacPorts-Python:
+          shell> port select python python27-apple
+       However, note that this may break other Python-related
+       applications installed with MacPorts.
+     - If you observe this message when opening a Gildas program,
+       please see the same TROUBLESHOOTING section for Linux:
+        Gtk-WARNING **: Locale not supported by C library.
+                        Using the fallback 'C' locale.
+     - GREG hardcopies to PDF are ensured through system utilities ps2pdf
+       and epstopdf. They can be installed thanks to the following ports:
+          shell> sudo port install texlive-basic      # provides ps2pdf
+          shell> sudo port install texlive-fontutils  # provides epstopdf
+
+***************************************************************************
+
+V - INSTALL UNDER LINUX
+------------------------
+
+  1) Dependencies:
+
+     In addition to the standard developper tools (make, gcc, nroff,
+     etc), the following dependencies must be installed. Root
+     priviledges are required here.
+
+     - Fedora 23 (or yum/dnf-based distributions):
+        Required:    dnf install gcc-gfortran gcc-c++ gtk2-devel
+        Recommended: dnf install python-devel numpy libpng-devel
+        Optional:    dnf install blas-devel lapack-devel fftw-devel cfitsio-devel
+        Pre-install: export GAG_SEARCH_PATH="/usr/lib"
+        Install:     follow installation steps at paragraph 2
+
+     - Ubuntu 13.04, 14.04, or 15.04 (or apt-based distributions):
+        Required:    sudo apt-get install gfortran g++ libgtk2.0-dev
+        Recommended: sudo apt-get install python-dev python-numpy
+        Optional:    sudo apt-get install libblas-dev liblapack-dev libfftw3-dev libcfitsio3-dev
+        Pre-install: export GAG_SEARCH_PATH="/usr/lib:/usr/lib/x86_64-linux-gnu",
+        Install:     follow installation steps at paragraph 2
+
+        Post-install under 14.04 and 15.04: if you are a Gnome Unity user,
+                     there is a bug which prevents Gildas programs to open
+                     correctly their menu widget. You have to disable the
+                     feature which detaches the application menus from their
+                     main window:
+                     sudo apt-get remove indicator-appmenu
+                     Note that this will affect all your applications opened
+                     in Unity.
+
+     - Ubuntu 12.04 LTS (special case for gfortran 4.6)
+        Required:    sudo apt-get install gfortran-4.5 g++ libgtk2.0-dev
+                     NB: default gfortran (4.6) is buggy. Install
+                     version 4.5 instead (this does not conflict with
+                     the default version)
+        Recommended: same as 13.04
+        Optional:    same as 13.04
+        Pre-install: export GAG_SEARCH_PATH="/usr/lib:/usr/lib/x86_64-linux-gnu"
+                     source admin/gildas-env.sh -c gfortran-4.5  ### SPECIAL ###
+        Install:     follow the installation steps in paragraph 2 WITH THE
+                     SPECIAL SWITCH ABOVE!
+
+  2) Compile and install (binaries):
+
+     Building the binaries should just need the following sequence of
+     commands. Gildas itself does not need root priviledges for
+     installation and execution: it can be unzipped anywhere and
+     installed by any user for its own needs.
+        shell-prompt> gunzip gildas-src-mmmyya.tar.gz
+        shell-prompt> tar -xf gildas-src-mmmyya.tar
+        shell-prompt> cd gildas-src-mmmyya
+     At this stage, if you are not under a sh-compatible shell, you
+     have to switch to e.g. bash. Then load the compilation
+     environment:
+        shell-prompt> source admin/gildas-env.sh
+     You can optionally add the compiler to be used with the option
+     "-c" (e.g. source admin/gildas-env.sh -c gfortran). Read
+     carefully the messages and warnings returned by the command. You
+     can safely ignore CFITSIO and ASDM warnings if you don't know
+     what they mean. If all seems correct, then compile and install
+     Gildas:
+        shell-prompt> make
+        shell-prompt> make install
+     Then follow the instructions at the end of the make install
+     process. Installation is successful if you can start the programs
+     'greg' or 'class' from a new terminal.
+
+  3) Post-installation (binaries):
+
+     After the installation is successful, you can optionally remove
+     the sources and compilation directory (gildas-src-mmmyy). This is
+     useful only to save disk space. On the other hand, this means
+     that in case of update (e.g. for CVS-based downloads) you will
+     have to recompile everything again from scratch.
+
+  4) Compile and/or install (documentation):
+
+     - From the tarball archive (easiest):
+          shell-prompt> mv gildas-doc-mmmyya.tar.gz gildas-exe-mmmyya
+          shell-prompt> cd gildas-exe-mmmyya
+          shell-prompt> gunzip gildas-doc-mmmyya.tar.gz
+          shell-prompt> tar -xf gildas-doc-mmmyya.tar
+     - Directly from the sources:
+       Compilation of documentation is not done by default when
+       compiling executables because: i) it requires special tools
+       (see requirements) and ii) it takes time.
+       To compile and install the PDF documentation, type:
+          shell-prompt> make doc
+          shell-prompt> make install-doc
+       To compile and install the HTML documentation, please type:
+          shell-prompt> make html
+          shell-prompt> make install-html
+
+  5) Troubleshooting:
+
+     - This message can be displayed when starting a Gildas program:
+        Gtk-WARNING **: Locale not supported by C library.
+                        Using the fallback 'C' locale
+       This is not a GILDAS issue. This means that your locale
+       settings (type "locale" in a terminal) indicate one or more
+       locales that are not installed on your system (type "locale -a"
+       in a terminal for the full list). You should fix your
+       environment variables in order to use an installed locale
+       (e.g. export LANG=en_US.utf8, beware this may change your
+       programs behavior regarding language), or install the missing
+       locale(s).
+     - Conflict with Anaconda: when installed from the downloadable
+       installer, Anaconda comes with a lot of development tools and
+       libraries which override the default system ones, but not in a
+       consistent way. This is proved to break software compilation and/or
+       execution (Gildas and others). For example:
+         astro: /home/user/anaconda/lib/libstdc++.so.6: version 
+                `GLIBCXX_3.4.21' not found (required by /home/user/
+                gildas-exe-jan17a/x86_64-ubuntu16.04-gfortran/lib/libatm.so)
+       This happens because Anaconda gives precedence to its own binaries
+       and include files (duplicate but different versions of system ones)
+       in the user's environment. There are several ways out of this issue:
+         a) Install Anaconda from your OS repositories (instead of custom
+            installation in the user account). This way, there should be
+            a correct integration of Anaconda within the OS.
+         b) Keep Anaconda in the user account, but "hide" it during Gildas
+            installation and execution. In other words, you have to ensure
+            that there is no reference to Anaconda installation paths in
+            the environment variables $PATH and $LD_LIBRARY_PATH. You most
+            likely have to edit your ~/.bashrc. Once this is done
+            recompile, install, and try executing Gildas. If it runs fine,
+            a permanent solution could be to use a shell function which
+            loads Anaconda environment only when needed, e.g.
+              function anaconda() {
+                  export PATH=...
+                  export LD_LIBRARY_PATH=...
+                  anaconda
+              }
+         c) The next time you install Anaconda, you should answer "No" to
+            the question: "Do you wish the installer to prepend the
+            Anaconda<2 or 3>install location to PATH...?". Then use a
+            function like the above example to get it working. Reference:
+            https://docs.anaconda.com/anaconda/faq#distribution-faq-linux-path
+
+***************************************************************************
+
+VI - INSTALL UNDER MS WINDOWS
+------------------------------
+
+  1) MicroSoft Installer (binary distribution)
+
+     - Disclaimer: GILDAS under Windows is supported on a best effort
+       only. Only 64 bits binaries are delivered. This means 32 bits
+       version of MS Windows are not supported (this includes Windows
+       XP).
+     - Get the Gildas installation package called
+       gildas-win64-mmmyya.exe where "mmmyy" indicate the release
+       date.
+     - Execute the installation package. Choose a destination folder
+       name without white spaces. Under Windows Vista, choose the
+       "just for me" installation option.
+     - Optionaly edit the gag.dico.lcl file to specify your Gildas
+       preferences, if any. It can be found in the "etc" directory in
+       the installation folder.
+     - If the you have no administrator rights, you have set the PATH
+       environment variable after installation. In a terminal, type:
+         setx PATH "%PATH%;C:\gildas\bin"
+       where "C:\gildas" should be replaced by the installation folder
+       if you used another one.
+
+  2) Installation from sources under Cygwin
+
+     - You can compile Gildas from sources using the Cygwin
+       environment (https://cygwin.com). Only the 64 bits version is
+       supported. Among the basic cygwin kernel and tools, you also
+       need to install the following packages:
+         * make, perl, pkg-config, groff
+         * gcc-core, gcc-gfortran, gcc-g++
+         * libgtk2.0-devel, libpng-devel
+         * python, python-numpy
+       Any missing package can be installed after the Cygwin
+       installation by re-running the installer and choosing the same
+       mirror as before.
+     - Once all dependencies are installed, compiling and installing
+       Gildas is as easy as under Linux (see section V-2). You can
+       check that the Cygwin environment is detected in the following
+       message:
+         "Selecting GILDAS version: mmmyy, source tree, x86_64-cygwin-gfortran"
+
+***************************************************************************
+
+VII - UNINSTALL UNDER LINUX
+----------------------------
+
+  - Except if you want to save disk space, you have no need to uninstall
+    any previous Gildas installation. Each version goes into its own
+    'gildas-src-XXX' and 'gildas-exe-XXX' directories. The default version
+    used is ruled by the environment variable $GAG_ROOT_DIR that is set
+    in user's ~/.bash_profile. You can modify it as you want to point to
+    the desired version.
+  - Remember to start a new terminal each time you modify your
+    ~/.bash_profile .
+  - For a complete uninstall of Gildas, just remove the directories
+    'gildas-src-XXX' and 'gildas-exe-XXX', and suppress the lines related
+    to Gildas in your ~/.bash_profile
+
+***************************************************************************
