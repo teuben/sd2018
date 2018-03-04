@@ -10,6 +10,8 @@
 #  TODO's:
 #  - test to check if everything was installed properly and working ok
 #  - git submodules?
+#  - intel accellerated?  https://www.scivision.co/intel-distribution-for-python/
+#
 
 #   make  it work for Linux and Darwin (MacOSX)
 set uname = `uname -s`
