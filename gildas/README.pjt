@@ -2,8 +2,9 @@
 https://www.iram.fr/IRAMFR/GILDAS/
 
 http://www.iram.fr/~gildas/dist/index.html
-wget http://www.iram.fr/~gildas/dist/gildas-src-mar16a.tar.gz
-wget http://www.iram.fr/~gildas/dist/gildas-doc-mar16a.tar.gz
+wget -c http://www.iram.fr/~gildas/dist/gildas-src-mar18b.tar.gz
+wget -c http://www.iram.fr/~gildas/dist/gildas-doc-mar18b.tar.gz
+  (but check for the latest)
 
 
 tar -xvf gildas-src-mmmyya.tar  
