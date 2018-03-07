@@ -1,0 +1,23 @@
+The QAC benchmark.
+==================
+
+On a Linux system, if you have the memory, and your problem is small
+enough to fit in memory, here's the fastest way to run the benchmark.
+The default QAC bench needs about 3GB in memory to run, and takes
+about 3 minutes to run. so most current 2018 should be good for this.
+
+On a Mac I don't know the trick, but would love to hear an update.
+
+Here's sample commands you can cut and paste and/or adapt:
+
+casa-config --version
+mkdir /dev/shm/bench
+cd /dev/shm/bench
+curl http://admit.astro.umd.edu/~teuben/QAC/qac_bench.tar.gz | tar zxf -
+cp ~/.casa/QAC/test/bench.py .
+time casa --nogui -c bench.py
+
+Send me your fastest results and I'll enter you in the list...
+
+Caution:  the current benchmark seems to drift in time, and can cause
+minor deviations from the expected flux (383.6....). I plan to "fix" that.
