@@ -14,3 +14,12 @@ since ESO will provide us with a number of computers where all the
 required software has been installed already.
 
 - Frederic
+
+## Install
+
+Some cut and pastable install notes:
+
+    git clone https://github.com/FredSchuller/BoADAS.git
+    curl 'https://uni-bonn.sciebo.de/s/zC6DlduTGcGBRTZ/download?path=%2F&files=BoaLib-2016-02-18.tgz' > BoaLib-2016-02-18.tgz
+
+and...
