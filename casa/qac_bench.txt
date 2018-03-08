@@ -17,7 +17,8 @@ curl http://admit.astro.umd.edu/~teuben/QAC/qac_bench.tar.gz | tar zxf -
 cp ~/.casa/QAC/test/bench.py .
 time casa --nogui -c bench.py
 
-Send me your fastest results and I'll enter you in the list...
+Send me your fastest results and I'll enter you in the hall of fame list...
 
 Caution:  the current benchmark seems to drift in time, and can cause
 minor deviations from the expected flux (383.6....). I plan to "fix" that.
+I suspect this is the ephemeris... 
