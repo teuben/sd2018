@@ -3,7 +3,14 @@ Here we discuss CASA and derived products to do array combinations.
 ## CASA
 
 CASA: (Common Astronomy Software Applications) is used for all ALMA
-and VLA calibration and mapping, and the natural starting point to
+and VLA calibration and imaging, and the natural starting point
+for any array combination procedures. Please have CASA 5.1
+installed on your laptop, and follow the guidelines in 
+https://casa.nrao.edu/casa_obtaining.shtml
+
+Some people have experience with MIRIAD, and we will make a comparison
+with MIRIAD procedures and capabilities at some points during the
+workshop.
 
 ## QAC
 
