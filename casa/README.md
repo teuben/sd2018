@@ -11,7 +11,25 @@ QAC: (Quick Array Combinations) is a set of functions to help you
 call CASA routines to exersize array combination techniques. It will
 use a number of other methods (see tp2vis, sd2vis, ssc etc.)
 
-See https://github.com/teuben/QAC how to install.
+See https://github.com/teuben/QAC how to install but here is the basic
+rundown assuming you have CASA installed:
+
+      # install
+      git clone https://github.com/teuben/QAC
+      ln -s ~/.casa/QAC 
+      cd QAC
+      make tp2vis
+      cat casa.init.py >> ~/.casa
+      # benchmark
+      cd test
+      curl http://admit.astro.umd.edu/~teuben/QAC/qac_bench.tar.gz | tar zxf -
+      time casa --nogui -c bench.py
+
+Mac people need to replace the casa command by
+
+      time /Applications/CASA.app/Contents/MacOS/casa --nogui -c bench.py
+
+For version 5.1.2 the final reported flux should be around 383.6
 
 
 ## TP2VIS
