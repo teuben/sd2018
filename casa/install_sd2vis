@@ -1,0 +1,36 @@
+#! /bin/csh -f
+#
+#
+#  13-mar-2018  Peter Teuben      initial version written for v1.4
+#
+#
+
+
+set uname = `uname -s`
+
+# grab this
+set url  = http://bele.oso.chalmers.se/nordicarc/sw/SD2vis_1.4.tar.gz
+
+# put it there
+set root = $HOME/.casa
+
+# extract root directory name of SD2vis
+set dir = $url:t:r:r
+
+# get it, and put the extracted file in the $root
+../geturl $url
+tar -C $root -zxf SD2vis_1.4.tar.gz
+
+# install it, the casa way
+cd $root/$dir
+buildmytasks 
+
+
+if (-e ../init.py) then
+  echo Updating your .casa/init.py file with the next two lines:
+  echo 'print "Adding SD2vis"'              >> ../init.py
+  echo 'execfile("'`pwd`'/mytasks.py")'     >> ../init.py
+  tail -2 ../init.py
+endif
+
+
