@@ -17,8 +17,12 @@ days.
       * QAC, TP2VIS, SD2VIS are components we will likely need to have installed as well.
    * GILDAS CLASS: https://www.iram.fr/IRAMFR/GILDAS/gildasli2.html
    * BoA: http://www3.mpifr-bonn.mpg.de/div/submmtech/software/boa/boa_main.html
-   * IDL (requires license) + scanamorphos: http://www2.iap.fr/users/roussel/herschel/index.html (a link to dedicated scripts for ArTeMiS will be added later)
-   * vanilla python via miniconda ? 
+   * IDL (requires license) + scanamorphos:  http://www2.iap.fr/users/roussel/artemis/
+   (a link to dedicated scripts for ArTeMiS will be added later)
+
+and recommended
+
+   * vanilla python3 (or 2) via miniconda
    * a spectral cube fits viewer (ds9, casaviewer, QFitsView). See also https://fits.gsfc.nasa.gov/fits_viewer.html
 
 ## Data needed
