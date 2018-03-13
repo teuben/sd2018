@@ -1,11 +1,11 @@
 Tutorials
 ---------
 
-Tutorial session 1: ALMA single dish reduction in CASA
-Tutorial session 2: bolometer data reduction in BoA & Scanamorphos
-Tutorial session 3: reduction of spectral line data in CLASS
-Tutorial session 4: combination of single dish and interferometry data
-Tutorial session 5: combination of single dish and interferometry data
+Tutorial session 1: ALMA single dish reduction in CASA - see below
+Tutorial session 2: bolometer data reduction in BoA & Scanamorphos - on ESO machines 
+Tutorial session 3: reduction of spectral line data in CLASS - see below
+Tutorial session 4: combination of single dish and interferometry data - see below
+Tutorial session 5: combination of single dish and interferometry data - see below
 
 
 Data needed for M100 tutorials (SD and combination) 
@@ -60,7 +60,7 @@ https://almascience.eso.org/almadata/sciver/M100Band3ACA/M100_Band3_TP_Calibrate
 https://almascience.eso.org/almadata/sciver/M100Band3ACA/M100_Band3_TP_UncalibratedData.tgz         Tutorial 1      5.4G  
 https://almascience.eso.org/almadata/sciver/M100Band3ACA/M100_Band3_TP_ampcal_UncalibratedData.tgz  Tutorial 1      4.6G 
 
-https://drive.google.com/drive/folders/17jzgdZ2_xNWL-w6FXG3mBE7Y1GIEX0s4                            Tutorial 3a/3b  [4 files, 1.1GB] 
+https://drive.google.com/drive/folders/17jzgdZ2_xNWL-w6FXG3mBE7Y1GIEX0s4                            Tutorial 3a/3b  [4 files, 1.1GB]
 
 https://almascience.eso.org/almadata/sciver/M100Band3_12m/M100_Band3_12m_CalibratedData.tgz         Tutorial 4/5   15G
 https://almascience.eso.org/almadata/sciver/M100Band3ACA/M100_Band3_7m_CalibratedData.tgz           Tutorial 4/5    4.8G
