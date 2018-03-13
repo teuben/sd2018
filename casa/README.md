@@ -31,13 +31,14 @@ rundown assuming you have CASA installed:
       make tp2vis
       cat casa.init.py >> ~/.casa/init.py
       
-      # run a benchmark
+      # run a benchmark, should be around 3 mins
       
       cd test
       curl http://admit.astro.umd.edu/~teuben/QAC/qac_bench.tar.gz | tar zxf -
+      casa-config --version
       time casa --nogui -c bench.py
 
-Mac people may need to replace the casa command by (something like)
+MacOS people may need to replace the casa command by (something like)
 
       time /Applications/CASA.app/Contents/MacOS/casa --nogui -c bench.py
 
@@ -50,13 +51,13 @@ end of the last REGRESSION line
 TP2VIS: a new routine to help with a Joint Deconvolution style of
 combining single dish (TP) with interferometric data (VIS).
 
-Installation can be done via QAC.
+Installation can be done via QAC. See above or https://github.com/tp2vis/distribute
 
 
 ## SD2VIS
 
 SD2VIS: similar to TP2VIS but only works on single pointings, no mosaic.
 
-Installation can be done via QAC.
+Installation can be done via QAC. See also https://www.oso.nordic-alma.se/software-tools.php
 
 
