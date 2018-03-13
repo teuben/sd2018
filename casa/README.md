@@ -29,7 +29,7 @@ rundown assuming you have CASA installed:
       ln -s `pwd`/QAC ~/.casa/QAC 
       cd QAC
       make tp2vis
-      cat casa.init.py >> ~/.casa
+      cat casa.init.py >> ~/.casa/init.py
       
       # run a benchmark
       
