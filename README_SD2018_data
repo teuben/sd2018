@@ -11,9 +11,9 @@ Tutorial session 5: combination of single dish and interferometry data
 Data needed for M100 tutorials (SD and combination) 
 ---------------------------------------------------
 
-For EA use:  https://alma-dl.mtk.nao.ac.jp/ftp/alma/sciver
-    EU use:  https://almascience.eso.org/almadata/sciver
-    NA use:  https://bulk.cv.nrao.edu/almadata/sciver
+For EA use:  https://alma-dl.mtk.nao.ac.jp/ftp/alma/sciver/
+    EU use:  https://almascience.eso.org/almadata/sciver/
+    NA use:  https://bulk.cv.nrao.edu/almadata/sciver/
 
 For 12m use directory:     M100Band3_12m
 For 7m/TP use directory:   M100Band3ACA
@@ -55,9 +55,18 @@ M100Band3_12m/
 Final list for all tutorials
 ----------------------------
 
-https://almascience.eso.org/almadata/sciver/M100Band3_12m/M100_Band3_12m_CalibratedData.tgz     Tutorial 4/5   15G
-https://almascience.eso.org/almadata/sciver/M100Band3ACA/M100_Band3_7m_CalibratedData.tgz       Tutorial 4/5    4.8G
-https://almascience.eso.org/almadata/sciver/M100Band3ACA/M100_Band3_ACA_ReferenceImages.tgz     Tutorial 4/5   21M
-http://admit.astro.umd.edu/~teuben/QAC/skymodel.fits                                            Tutorial 4/5   65M
-http://admit.astro.umd.edu/~teuben/QAC/skymodel.ptg                                             Tutorial 4/5    4.0K
-http://admit.astro.umd.edu/~teuben/QAC/qac_bench.tar.gz                                         Tutorial 4/5  103M
+
+https://almascience.eso.org/almadata/sciver/M100Band3ACA/M100_Band3_TP_CalibratedData.tgz           Tutorial 1
+https://almascience.eso.org/almadata/sciver/M100Band3ACA/M100_Band3_TP_UncalibratedData.tgz         Tutorial 1
+https://almascience.eso.org/almadata/sciver/M100Band3ACA/M100_Band3_TP_ampcal_UncalibratedData.tgz  Tutorial 1
+
+https://drive.google.com/drive/folders/17jzgdZ2_xNWL-w6FXG3mBE7Y1GIEX0s4                            Tutorial 3a/3b  [4 files, 1.1GB] 
+
+https://almascience.eso.org/almadata/sciver/M100Band3_12m/M100_Band3_12m_CalibratedData.tgz         Tutorial 4/5   15G
+https://almascience.eso.org/almadata/sciver/M100Band3ACA/M100_Band3_7m_CalibratedData.tgz           Tutorial 4/5    4.8G
+https://almascience.eso.org/almadata/sciver/M100Band3ACA/M100_Band3_ACA_ReferenceImages.tgz         Tutorial 4/5   21M
+http://admit.astro.umd.edu/~teuben/QAC/skymodel.fits                                                Tutorial 4/5   65M
+http://admit.astro.umd.edu/~teuben/QAC/skymodel.ptg                                                 Tutorial 4/5    4.0K
+http://admit.astro.umd.edu/~teuben/QAC/qac_bench.tar.gz                                             Tutorial 4/5  103M
+
+
