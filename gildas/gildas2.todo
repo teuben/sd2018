@@ -1,0 +1,42 @@
+
+1. We remind you that you should have installed GILDAS before arriving to
+   ESO (see the details below). You can contact the gildas help desk at
+   gildas@iram.fr if needed.
+
+2. The datasets are available for download here:
+
+   https://drive.google.com/drive/folders/17jzgdZ2_xNWL-w6FXG3mBE7Y1GIEX0s4
+
+   Please download them before the tutorial start.
+
+3. We will distribute procedures to explore and reduce the above datasets
+   only at the end of the tutorials. Indeed, we propose to make the
+   tutorial in as close as possible real life conditions. In particular,
+   what should you do when you receive an APEX dataset that you don't know
+   much about because it was observed by someone else? The basic
+   information you would get in such conditions are the kind of data sets:
+
+     A. OMC1-LineSurvey.apex.tar contains part of a line survey towards the
+        Orion Molecular Cloud 1 position.
+
+     B. SPT2319-55-CII-Z5.tar contains observations of the CII line of a
+        high-redshift galaxy.
+
+     C. R-Aql.tar contains 183 GHz H2O maser and SiO observations towards
+        evolved stars.
+
+     D. W34-MM3+MM2-comb_smoothed.apex.tar contains On-The-Fly observations
+        of a Milky Way GMC.
+
+   Datasets A & B will be used during the novice level tutorial, and
+   datasets C & D during the intermediate level tutorial. We will try to
+   guide your data reduction of the different datasets.
+
+   Note that the GILDAS tutorials (and in particular the CLASS ones) are
+   available here:
+
+      http://www.iram.fr/IRAMFR/GILDAS/gildasli5.html#x8-5000
+
+Best regards,
+  Jerome Pety, Katharina Immer, Dirk Muders, and Sebastien Bardeau.
+
