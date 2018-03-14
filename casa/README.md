@@ -70,10 +70,13 @@ https://casaguides.nrao.edu/index.php/Analysis_Utilities but the following cut a
 commands should work from your Unix terminal:
 
         cd ~/.casa
-and	
+and
+
         wget ftp://ftp.cv.nrao.edu/pub/casaguides/analysis_scripts.tar
         tar xf analysis_scripts.tar
+	
 or
+
         curl ftp://ftp.cv.nrao.edu/pub/casaguides/analysis_scripts.tar | tar xf -
 
 and now add the following three lines to your ~/.casa/init.py file:
