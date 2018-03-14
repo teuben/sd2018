@@ -12,6 +12,7 @@ Some people have experience with MIRIAD, and we will make a comparison
 with MIRIAD procedures and capabilities at some points during the
 workshop.
 
+
 ## QAC
 
 QAC: (Quick Array Combinations) is a set of functions to help you
@@ -60,4 +61,24 @@ SD2VIS: similar to TP2VIS but only works on single pointings, no mosaic.
 
 Installation can be done via QAC. See also https://www.oso.nordic-alma.se/software-tools.php
 
+
+## AU
+
+The Analysis Utilities (AU) are a set of CASA function, and can be installed very much like
+QAC by patching up your ~/.casa/init.py file.   Details are here
+https://casaguides.nrao.edu/index.php/Analysis_Utilities but the following cut and pastable
+commands should work from your Unix terminal:
+
+        cd ~/.casa
+and	
+        wget ftp://ftp.cv.nrao.edu/pub/casaguides/analysis_scripts.tar
+	tar xf analysis_scripts.tar
+or
+	curl ftp://ftp.cv.nrao.edu/pub/casaguides/analysis_scripts.tar | tar xf -
+
+and now add the following three lines to your ~/.casa/init.py file:
+
+	sys.path.append(os.environ['HOME'] + '/.casa/analysis_scripts')
+	import analysisUtils as au
+	print "Added au"
 
