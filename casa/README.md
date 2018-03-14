@@ -70,7 +70,8 @@ https://casaguides.nrao.edu/index.php/Analysis_Utilities but the following cut a
 commands should work from your Unix terminal:
 
         cd ~/.casa
-and
+	
+and grab the tar file and install it in your .casa tree
 
         wget ftp://ftp.cv.nrao.edu/pub/casaguides/analysis_scripts.tar
         tar xf analysis_scripts.tar
