@@ -1,8 +1,12 @@
 for SD2018:
 
-		git clone https://github.com/teuben/SD2018
-		cd SD2018
-		git pull
+      git clone https://github.com/teuben/SD2018
+      cd SD2018
+      git pull
+
+The "git" command is standard on Mac now. On Linux/Ubuntu you may need to install it
+
+      sudo apt install git
 
 
 git tricks
