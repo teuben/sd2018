@@ -95,8 +95,8 @@ asdmlist = ['uid___A002_X85c183_X36f',
             'uid___A002_X86fcfa_X664',
             'uid___A002_X86fcfa_X96c',
             'uid___A002_X86fcfa_Xd9']
-vislist = map(lambda x: x + '.ms.bl', asdmlist)
-spw = 3
+vislist = map(lambda x: x + '.ms.cal.jy', asdmlist)
+spw = 23
 imagename = 'M100_TP_CO_cube.spw%s.image'%(spw)
 blimagename = imagename + '.bl'
 integimagename = imagename + '.integ'
