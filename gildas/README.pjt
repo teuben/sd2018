@@ -2,15 +2,15 @@
 https://www.iram.fr/IRAMFR/GILDAS/
 
 http://www.iram.fr/~gildas/dist/index.html
-wget http://www.iram.fr/~gildas/dist/gildas-src-mar16a.tar.gz
-wget http://www.iram.fr/~gildas/dist/gildas-doc-mar16a.tar.gz
+wget http://www.iram.fr/~gildas/dist/gildas-src-mar18b.tar.gz
+wget http://www.iram.fr/~gildas/dist/gildas-doc-mar18b.tar.gz
 
 
 tar -xvf gildas-src-mmmyya.tar  
 cd gildas-src-mmmyya  
 bash
 source admin/gildas-env.sh  
-make  -j 4              (takes long time, about an hour)
+make  -j 4              (takes long time, can be an hour on slow machines)
 make install
 cd ../gildas-exe-mmmyya
 tar zxf ../gildas-doc-mmmyya.tar.gz
