@@ -12,6 +12,17 @@ Some people have experience with MIRIAD, and we will make a comparison
 with MIRIAD procedures and capabilities at some points during the
 workshop.
 
+### Testing your SD2018 environment
+
+If you have installed all the components below, and when you start up
+casa, from the CASA prompt the following commands should work do
+something sensible:
+
+      qac_version()
+      tp2vis_version()
+      SD2vis?
+      aU?
+
 
 ## QAC
 
@@ -24,7 +35,7 @@ rundown assuming you have CASA installed:
 
       # install
 
-      cd ~/mycasastuff                          # where-ever
+      cd ~/mycasastuff                          # where-ever you want this to be
       git clone https://github.com/teuben/QAC
       mkdir ~/.casa                             # in case it didn't exist
       ln -s `pwd`/QAC ~/.casa/QAC 
