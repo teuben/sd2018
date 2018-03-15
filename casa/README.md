@@ -27,8 +27,8 @@ something sensible:
 
 We will be using some examples from the CASA guides, most notably
 
-* https://casaguides.nrao.edu/index.php/M100_Band3_SingleDish_5.1
-* https://casaguides.nrao.edu/index.php/M100_Band3_Combine_5.1
+* https://casaguides.nrao.edu/index.php/M100_Band3_SingleDish_5.1  [online had 2 errors - we fixed those here]
+* https://casaguides.nrao.edu/index.php/M100_Band3_Combine_5.1 [online not working yet]
 
 You can use CASA's extractCASAscript.py (we have a copy in SD2018) to
 extract a working version:
@@ -38,6 +38,10 @@ extract a working version:
 and now you could cheat and run the demo even from the Unix command line
 
       casa -c M100Band3Combine5.1.py
+
+Until further notice, don't do this,
+it's not working yet. NRAO working on improving this CASA guide, we will be using our own version during SD2018
+based on QAC's workflow6a.py
 
 ## QAC
 
