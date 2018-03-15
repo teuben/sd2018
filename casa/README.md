@@ -80,9 +80,11 @@ or
 
         curl ftp://ftp.cv.nrao.edu/pub/casaguides/analysis_scripts.tar | tar xf -
 
-and now add the following three lines to your ~/.casa/init.py file:
+and now add the following four lines to your ~/.casa/init.py file:
 
         sys.path.append(os.environ['HOME'] + '/.casa/analysis_scripts')
         import analysisUtils as au
+        import analysisUtils as aU
         print "Added au"
 
+(both variants "au" and "aU" have been seen in the wild, but 'aU' is supposed to be the official one)
