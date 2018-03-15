@@ -15,7 +15,7 @@ workshop.
 ### Testing your SD2018 environment
 
 If you have installed all the components below, and when you start up
-casa, from the CASA prompt the following commands should work do
+casa, from the CASA prompt the following commands should work and do
 something sensible:
 
       qac_version()
@@ -23,6 +23,21 @@ something sensible:
       SD2vis?
       aU?
 
+### CASA Guides
+
+We will be using some examples from the CASA guides, most notably
+
+* https://casaguides.nrao.edu/index.php/M100_Band3_SingleDish_5.1
+* https://casaguides.nrao.edu/index.php/M100_Band3_Combine_5.1
+
+You can use CASA's extractCASAscript.py (we have a copy in SD2018) to
+extract a working version:
+
+      ./extractCASAscript.py https://casaguides.nrao.edu/index.php/M100_Band3_Combine_5.1
+
+and now you could cheat and run the demo even from the Unix command line
+
+      casa -c M100Band3Combine5.1.py
 
 ## QAC
 
