@@ -1,4 +1,4 @@
-version = casadef.casa_version
+version = cu.version_string()
 print "You are using " + version
 if (version < '5.1.1'):
     print "YOUR VERSION OF CASA IS TOO OLD FOR THIS GUIDE."
