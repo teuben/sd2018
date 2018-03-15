@@ -1,0 +1,129 @@
+
+
+git tricks
+----------
+
+0) commands beginners should know
+
+   git clone URL                    # get a new repo from URL
+   git pull                         # update the repo
+   git add FILE                     # add a new FILE
+   git commit FILE                  # commit the FILE 
+   git push                         # push the commit's
+
+1) working with tags
+
+   git tag --list                   # see what tags you have
+   git tag nemo_4_3_2               # make a new tag (locally)
+   git tag -d nemo_4_3_2            # delete that tag
+   git push origin nemo_4_3_2       # push it out to the world 
+   git checkout nemo_4_3_2          # switch to a tag
+   git checkout master              # revert back
+
+   todo:  see if "git push --tags"  also works
+
+2) ? can you see what will be pushed when you "git push"
+   since you may have done a whole bunch of "git commit"
+   It would say something like
+      "Your branch is ahead of 'origin/master' by 8 commits"
+
+   git diff --stat --cached origin/master
+
+
+3) if you accidentally edited a FILE and want to "undo" it,
+   i.e. revert back to the original FILE:
+
+   git checkout FILE
+
+   this will silently overwrite your modified FILE with the
+   original version
+
+ 
+4) working with another remote upstream
+
+   Let say you work off a fork, and cloned that as you private workspace.
+   The original NEMO would be the upstream master:
+
+   git remote                                                # see which ones you have
+   git remote add upstream https://github.com/teuben/nemo    # add this one-time
+
+   git branch                                                # check what branch you are on
+   git checkout master                                       # ensure on your master
+   git fetch upstream                                        # fetch the upstream
+   git merge upstream/master                                 # merge in 
+   git status                                                # should be no new things
+   git push                                                  # push it to your origin
+
+5) When pgplot changed their URL:
+
+   git remote -v
+
+   git remote rename origin teuben
+   git remote add origin https://github.com/astroumd/pgplot
+
+
+Example
+
+#  ~/.gitconfig
+
+[user]
+	email = teuben@gmail.com
+	name = Peter Teuben
+[credential]
+	helper = cache --timeout 100000
+[core]
+	editor = mem
+[merge]
+	tool = meld
+[push]
+	default = simple
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	ui = true
+[alias]
+        q  = status -uno
+	cl = config --list
+	ci = commit
+	co = checkout
+	st = status
+	br = branch
+	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+
+## https://blog.ochronus.com/git-tips-from-the-trenches-5c796d5f114c#.jdkbdmktv
+
+ds = diff --staged      # git ds - diff your staged changes == review before committing.
+st = status -sb         # smarter status - include tag and branch info
+fup = log --since '1 day ago' --oneline --author <YOUR_EMAIL>  # I know what you did yesterday - great for follow-ups
+ls = log --pretty=format:"%C(yellow)%h %C(blue)%ad%C(red)%d %C(reset)%s%C(green) [%cn]" --decorate --date=short  # pretty one-line log with tags, branches and authors
+lsv = log --pretty=format:"%C(yellow)%h %C(blue)%ad%C(red)%d %C(reset)%s%C(green) [%cn]" --decorate --date=short --numstat    # a verbose ls, shows changed files too
+
+# some resets without explanation
+r = reset
+r1 = reset HEAD^
+r2 = reset HEAD^^
+rh = reset --hard
+rh1 = reset HEAD^ --hard
+rh2 = reset HEAD^^ --hard
+
+# basic shortcuts
+cp = cherry-pick
+cl = clone
+br = branch 
+diff = diff --word-diff
+dc = diff --cached
+
+# stash shortcuts
+sl = stash list
+sa = stash apply
+ss = stash save
+
+# log related - thanks to @mwd410
+l = log 
+lh = log --graph
+la = !git lh --date-order --all 2> /dev/null
+lb = log --graph --simplify-by-decoration
+lba = !git lb --all 
+h = !git --no-pager log --graph -n 15
+a = !git --no-pager la -n 15
