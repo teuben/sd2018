@@ -1,4 +1,4 @@
-#   M100 Combination examples - just 1 channel
+#   M100 Array Combination examples - just 1 channel
 
 This markdown (md) file follows the benchmark "bench0.py" script in QAC/test
 
@@ -9,7 +9,7 @@ Get your data from http://admit.astro.umd.edu/~teuben/QAC/
     qac_bench.tar.gz      - the ALMA data (3 files)
     model4.fits           - new, model of a rotating galaxy
 
-Go and visualize the images in casa or ds9:
+Visualize the images in **CASA** or **ds9** (but you need fits files for this):
 
     exportfits('M100_TP_CO_cube.bl.image', 'M100_TP_CO_cube.bl.fits')
 
@@ -17,6 +17,8 @@ Go and visualize the images in casa or ds9:
     viewer('model4.fits')
 
 ## parameters in this benchmark workflow
+
+It is convenient in a script, but sometimes also in a CASA session, to use some short names for long things...
 
     phasecenter = 'J2000 12h22m54.900s +15d49m15.000s'
     line        = {"restfreq":"115.271202GHz","start":"1500km/s", "width":"5km/s","nchan":1}
@@ -37,11 +39,12 @@ In the real **bench0.py** script you can override these parameters using the sim
     for arg in qac_argv(sys.argv):
         exec(arg)
 
-Luckily enough, cutting and pasting these will do no harm
+Luckily enough, cutting and pasting these will do no harm in a CASA session.
 
 ## Do we have our files?
 
-Did you really have all your files here? There is a 
+Did you really have all your files here? There is a QAC for that. It is  a good habit to protect your scripts, as CASA
+error messages can take time to digest
 
     QAC.exists(tpim)
     QAC.exists(ms07)
@@ -58,6 +61,7 @@ but within QAC there is a summary that combines the information:
 
     qac_summary(tpim,[ms07,ms12])
 
+there is another classic OOPS there.
 
 ## Some derived parameters
 
@@ -69,7 +73,7 @@ but within QAC there is a summary that combines the information:
     # imsubimage(tpim,tpim2,chans=chans,overwrite=True)
 
 
-## Properties of the TPIM: RMS
+## Properties of the TPIM: the RMS in the cube
 
 We will need to know the RMS in the TP for TP2VIS. For example, imstat can look at the first few and last channels:
 
@@ -78,7 +82,8 @@ We will need to know the RMS in the TP for TP2VIS. For example, imstat can look 
 
 We also have a RMS as function of channel plotter in QAC, that visualizes this:
 
-    plot5(tpim)
+    plot5(tpim,plot='rms.png')
+
 
 So, the answer is about 0.15 for the rms!
 
@@ -97,14 +102,15 @@ Next you run **tp2vis**, in a vanilly CASA you would simply need to do
 
     execfile("tp2vis.py")
 
-and have access to the 4 basic tp2vis functions. Here I am using a QAC routine.
+and have access to the 4 basic tp2vis functions. Here I am using a QAC routine, which has
+incoorporated tp2vis via the init.py method in CASA.
 
 
     qac_tp_vis('bench0',tpim2,ptg,rms=0.15)
     #  mkdir bench0
     #  tp2vis('bench0/tp.ms',tpim2,ptg,rms=0.15)
 
-and now     
+and now to plot a summary
     
     tp2vispl([tpms,ms07,ms12],outfig='bench0/tp2vispl_rms.png',show=True)
 
@@ -118,6 +124,11 @@ and now
 
     # JvM tweak
     tp2vistweak('bench0/clean/tpalma', 'bench0/clean/tpalma_2')
+
+Maybe look at some results? And compare with other versions?
+
+    viewer('bench0/clean/tpalma_2.tweak.image')
+
 
 # classic feather
 
