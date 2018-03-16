@@ -29,6 +29,7 @@ We will be using some examples from the CASA guides, most notably
 
 * https://casaguides.nrao.edu/index.php/M100_Band3_SingleDish_5.1  [online had 2 errors - we fixed those here]
 * https://casaguides.nrao.edu/index.php/M100_Band3_Combine_5.1 [online not working yet]
+* https://casaguides.nrao.edu/index.php/M100_Band3_Combine_4.3 [working older version of CASA, with clean]
 
 You can use CASA's extractCASAscript.py (we have a copy in SD2018) to
 extract a working version:
@@ -89,7 +90,8 @@ Installation can be done via QAC. See above or https://github.com/tp2vis/distrib
 
 SD2VIS: similar to TP2VIS but only works on single pointings, no mosaic.
 
-Installation can be done via QAC. See also https://www.oso.nordic-alma.se/software-tools.php
+Installation can be done via QAC via our install_sd2vis script.
+See also https://www.oso.nordic-alma.se/software-tools.php
 
 
 ## AU
