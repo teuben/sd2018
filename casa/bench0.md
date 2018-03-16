@@ -132,11 +132,11 @@ Maybe look at some results? And compare with other versions?
 
 # classic feather
 
-    qac_feather('bench0','bench0/clean/tpalma_2.image',tpim2)
+    qac_feather('bench0','bench0/clean/alma_2.image',tpim2)
 
 # Faridani's SSC
 
-    qac_ssc('bench0','bench0/clean/tpalma_2.image',tpim2, regrid=True, cleanup=False)
+    qac_ssc('bench0','bench0/clean/alma_2.image',tpim2, regrid=True, cleanup=False)
 
 # Comparison Plot
 
