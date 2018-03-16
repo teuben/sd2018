@@ -1,5 +1,20 @@
 #   M100 Combination examples - just 1 channel
 
+This markdown (md) file follows the benchmark "bench0.py" script in QAC/test
+
+## Preparations
+
+Get your data from http://admit.astro.umd.edu/~teuben/QAC/
+
+    qac_bench.tar.gz      - the ALMA data (3 files)
+    model4.fits           - new, model of a rotating galaxy
+
+Go and visualize the images in casa or ds9:
+
+    exportfits('M100_TP_CO_cube.bl.image', 'M100_TP_CO_cube.bl.fits')
+
+    viewer('M100_TP_CO_cube.bl.image')
+    viewer('model4.fits')
 
 ## parameters in this benchmark workflow
 
@@ -22,6 +37,28 @@ In the real **bench0.py** script you can override these parameters using the sim
     for arg in qac_argv(sys.argv):
         exec(arg)
 
+Luckily enough, cutting and pasting these will do no harm
+
+## Do we have our files?
+
+Did you really have all your files here? There is a 
+
+    QAC.exists(tpim)
+    QAC.exists(ms07)
+    QAC.exists(ms12)
+
+## Summary
+
+You can use
+[**listobs()**](https://casa.nrao.edu/casadocs/latest/global-task-list/task_listobs/about) 
+and
+[**imhead()**](https://casa.nrao.edu/casadocs/latest/global-task-list/task_imhead/about)  [OOPS]
+but within QAC there is a summary that combines the information:
+
+
+    qac_summary(tpim,[ms07,ms12])
+
+
 ## Some derived parameters
 
 
@@ -30,6 +67,21 @@ In the real **bench0.py** script you can override these parameters using the sim
     tpim2  = tpim
     # tpim2 = tpim+'_'+chans
     # imsubimage(tpim,tpim2,chans=chans,overwrite=True)
+
+
+## Properties of the TPIM: RMS
+
+We will need to know the RMS in the TP for TP2VIS. For example, imstat can look at the first few and last channels:
+
+    imstat(tpim,axes=[0,1])['rms'][:6].mean()
+    imstat(tpim,axes=[0,1])['rms'][-6:].mean()
+
+We also have a RMS as function of channel plotter in QAC, that visualizes this:
+
+    plot5(tpim)
+
+So, the answer is about 0.15 for the rms!
+
 
 ## Need a pointing file for TP2VIS
 
@@ -41,12 +93,20 @@ Alternatively you can create one from an image using a hex-grid generator (**qac
 
 # run tp2vis and plot weights to compare to 12m/7m
 
+Next you run **tp2vis**, in a vanilly CASA you would simply need to do
+
+    execfile("tp2vis.py")
+
+and have access to the 4 basic tp2vis functions. Here I am using a QAC routine.
+
 
     qac_tp_vis('bench0',tpim2,ptg,rms=0.15)
     #  mkdir bench0
     #  tp2vis('bench0/tp.ms',tpim2,ptg,rms=0.15)
+
+and now     
     
-    tp2vispl([tpms,ms07,ms12],outfig='bench0/tp2vispl_rms.png')
+    tp2vispl([tpms,ms07,ms12],outfig='bench0/tp2vispl_rms.png',show=True)
 
     # @todo subtle difference if imsubimage is done here instead of upfront
     imsubimage(tpim,'bench0/tp.im',chans=chans)
