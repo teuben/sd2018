@@ -1,0 +1,316 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+define character todo*20 
+!
+set default
+set plot_page landscape
+set align f c
+set unit f
+set plot histo
+set sou OMC1
+set format brief
+set nomatch
+!
+if (pro%narg.ne.1) then
+   message e OMC1-LineSurvey "Usage: @ OMC1-LineSurvey show|expl|aver|base|fit|weeds"
+   return base
+endif
+let todo &1
+!
+if (todo.eq."show") then
+   ! Goal: Check global CLASS behavior
+   show all
+else if (todo.eq."expl") then  
+   ! Goal: Load in data and see what's there!                 
+   file in OMC1-LineSurvey.apex
+   find
+   list
+   say "How many scans are there?"
+   say "What is the source name?"
+   say "What are the offsets?"
+   say "What is the line name?"
+   say "What is the frontend/backend combination?"
+   say "What is the scan number?"
+   pause
+   get first
+   header
+   say "What is the projection center?"
+   say "What is the spectral axis (in frequency and velocity)?"
+   say "What are the calibration parameters?"
+else if (todo.eq."aver") then
+   ! Goal: Average the data for one frequency
+   file out OMC1-LineSurvey-aver.apex single /overwrite
+   file in OMC1-LineSurvey.apex
+   set line F290
+   find
+   stamp
+   pause
+   average /resample
+   write
+   go browse
+else if (todo.eq."base") then
+   ! Goal: Subtract baseline
+   file out OMC1-LineSurvey-base.apex single /overwrite
+   file in OMC1-LineSurvey.apex
+   set line F290
+   find
+   aver /res
+   plot
+   say "Baseline is not at zero!"
+   say "Note the rms of the spectrum?"
+   say "Set baseline windows and subtract the fit of polynomial of order 1"
+   pause
+   set window
+   draw window
+   base 1 /pl
+   say "Note the rms of the spectrum?"
+   pause
+   set tel AP-H301-X201
+   find
+   for i 1 to found
+     get n
+     modify beam_eff /ruze 0.787 20
+     base 1
+     write
+   next
+   set tel AP-H301-X202
+   find
+   for i 1 to found
+     get n
+     modify beam_eff /ruze 0.787 20
+     base 1
+     write
+   next
+   set tel *
+   file in OMC1-LineSurvey-base.apex
+   find
+   aver /res
+   pl
+   say "This is the baselined spectrum, now in Tmb"
+else if (todo.eq."fit") then
+   ! Goal: Fit one line
+   file in OMC1-LineSurvey-base.apex
+   file out OMC1-LineSurvey-base-H2CO.apex single /overwrite
+   find
+   average /resample
+   extract 291100 291300
+   !H2CO line
+   modify frequency 291237.766
+   set unit v
+   set mode x -50 50
+   set win -20 40
+   base 1 /plot
+   plot
+   write
+   draw window
+   pause "Fit one line: Set frequency boundary of the line"
+   lines 1
+   minimize
+!   iterate 5
+   visualize
+   pause "Fit two lines: Set frequency boundaries of the lines"
+   lines 2
+   minimize
+   iterate 5
+   pen 3 /dash 3
+   visualize 1 /pen 3
+   visualize 2 /pen 3
+   pen 3 /dash 1
+   visualize /pen 3
+   pause "Fit three lines: Set frequency boundaries of the lines"
+   lines 3
+   minimize
+   iterate 5
+   pen 1 /dash 3
+   visualize 1 /pen 1
+   visualize 2 /pen 1
+   visualize 3 /pen 1
+   pen 1 /dash 1
+   visualize /pen 1
+   pen 0
+   pause "Show residuals"
+   residual
+   plot
+   pause "Show fitting results"
+   set var gauss read
+   exa nfit
+   pause "Show specific fitting results: Central velocity of first fitted line"
+   exa nfit[2]
+else if (todo.eq."fits") then
+   file in OMC1-LineSurvey-base-H2CO.apex
+   find
+   get f
+   fits write OMC1-LineSurvey-base-H2CO.fits /mode spectrum
+else if (todo.eq."weeds") then
+   !Goal: Identifying lines using weeds
+   use in cdms
+   file in OMC1-LineSurvey-base.apex
+   find
+   get first
+   plot
+   lid /delta 20 /energy 200
+   pause
+   lid /species "H2CO" /delta 2000
+else if (todo.eq."base_advanced")
+   file out OMC1-LineSurvey-base_advanced.apex single /overwrite
+   file in OMC1-LineSurvey.apex
+   set line F290
+   set tel AP-H301-X201
+   find
+   get f
+   define integer myflagarray1 /like ry
+   find
+   set unit c
+   set mode x auto
+   set win 'channels'*0.5-50 'channels'*0.5+50
+
+   aver /resample
+   pl
+   base 1 /pl
+   say 'sigma'
+   draw win
+
+   !pause
+
+   cl
+   set unit c
+
+   for a 1 to 55
+     cl
+     let myflagarray1 0 /where abs(ry).lt.(1.5*'sigma')
+     let myflagarray1 1 /where ry.ge.(1.5*'sigma')
+     let myflagarray1 1 /where ry.le.(-1.5*'sigma')
+     find
+     aver /resample
+     box
+     spectrum
+     associate LINE myflagarray1
+     set win /ASSOCIATED
+     draw win
+     base 1 /pl
+     say 'sigma'
+!     greg\draw text 3277 2.5 "\gn\\Dres\\U (GHz)" /user
+     set orientation 90
+     greg\draw text -500 12 "T\\Dmb\\U (K)" /user
+     set orientation 0
+     greg\draw text 1500 17 "rms = "'sigma'" K" /user
+     say 'a'
+
+!     pause
+
+    next
+
+    find
+    for i 1 to found
+     get n
+     modify beam_eff /ruze 0.787 20
+     associate LINE myflagarray1
+     set win /associated
+     pl
+     base 1 /pl
+     write
+    next
+
+    sic output 290GHz_Windows.txt new
+    for i 1 to 'channels'
+     say 'myflagarray1[i]'
+     next
+    sic output
+
+!   delete /var myflagarray
+
+
+   set tel AP-H301-X202
+   find
+   get f
+   define integer myflagarray2 /like ry
+   find
+   set unit c
+   set mode x auto
+   set win 'channels'*0.5-50 'channels'*0.5+50
+
+   aver /resample
+   pl
+   base 1 /pl
+   say 'sigma'
+   draw win
+
+   !pause
+
+   cl
+
+   for a 1 to 55
+     cl
+     let myflagarray2 0 /where abs(ry).lt.(1.5*'sigma')
+     let myflagarray2 1 /where ry.ge.(1.5*'sigma')
+     let myflagarray2 1 /where ry.le.(-1.5*'sigma')
+     find
+     aver /resample
+     box
+     spectrum
+     associate LINE myflagarray2
+     set win /ASSOCIATED
+     draw win
+     base 1 /pl
+     say 'sigma'
+!     greg\draw text 3277 2.5 "\gn\\Dres\\U (GHz)" /user
+     set orientation 90
+     greg\draw text -500 9 "T\\Dmb\\U (K)" /user
+     set orientation 0
+     greg\draw text 1500 12 "rms = "'sigma'" K" /user
+     say 'a'
+
+!     pause
+
+    next
+
+    find
+    for i 1 to found
+     get n
+     modify beam_eff /ruze 0.787 20
+     associate LINE myflagarray2
+     set win /associated
+     pl
+     base 1 /pl
+     write
+    next
+
+    sic output 290GHz_Windows.txt append
+    for i 1 to 'channels'
+     say 'myflagarray2[i]'
+     next
+    sic output
+
+    set tel *
+    set unit f
+    set win -2174 -1509 -1366 -872 -831 217 237 1190 1238 2073
+
+    set var base read
+    define real rms_simple rms_advanced
+
+    file in OMC1-LineSurvey-base.apex
+    find
+    aver /resample
+    set mode y -2 25
+    pl
+    base 1
+    let rms_simple sigfi
+
+    file in OMC1-LineSurvey-base_advanced.apex
+    find
+    aver /resample
+    set mode y -2 25
+    pen 1
+    spectrum
+    base 1
+    let rms_advanced sigfi
+
+    pen 0
+
+    say This is the rms of the simple baseline subtraction:'rms_simple'
+    say This is the rms of the advanced baseline subtraction:'rms_advanced'
+
+   message e OMC1-LineSurvey "Usage: @ OMC1-LineSurvey show|expl|aver|base|fit|weeds|base_advanced"   
+endif
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

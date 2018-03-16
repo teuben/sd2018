@@ -1,0 +1,201 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+! Extragalactic CII line in the strongly lensed galaxy SPT2319-55
+! APEX wobbler observations
+! From Gullberg et al., MNRAS 449, 2883–2900, 2015
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+set plot hist
+set weight sigma
+set mode x auto
+set mode y auto
+set bad and
+set match 5.0
+!
+define int overcount
+define int nchan 
+define int cench
+define int count
+define int basorder 
+define int killedge
+define real med
+define real sumch[10] var tmin tmax rms v1 v2 vref
+define int  nup ic1 ic2 n1 n2 chover cnt 
+define real baswin
+define real freqobs
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+symbol sname SPT2319-55
+set source 'sname'
+set line CII2319-55
+let baswin 500 ! [km/s]
+let freqobs 1900.53726e3/(1+5.2929) ! [MHz] rest freq / (1+redshift)
+!
+sic delete 'sname'"-raw.apex"
+sic delete 'sname'"-bas.apex"
+!
+let overcount 0
+let chover 0
+let basorder 1
+let count 0
+let killedge  50
+!
+set unit v f
+set wind -1*baswin baswin
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Determine overlap region of the 2 FFTs units
+!
+file in SPT2319-55_CII-org.apex ! Input data file
+set weight equal
+find
+if (found.gt.0.and.chover.eq.0) then
+   ! Select and copy the first two spectra that have the right frequency
+   file out overlap.apex single /over
+   quiet
+   for ient 1 to found
+      get next
+      if (sqrt((frequency-freqobs)**2).le.1000.and.overcount.lt.2) then
+         let overcount overcount+1
+         write overcount
+      endif
+   next ient
+   verbose
+   exa overcount
+   if (overcount.gt.1) then
+      ! Two were found => continue
+      file in overlap.apex 
+      ! Determine the two spectra observation numbers
+      find
+      get first
+      let n1 number
+      get next
+      let n2 number
+      ! Average both spectra and get the resulting lower and upper velocity
+      find /entry n1 n2
+      list
+      set align f i
+      average /resample /nocheck
+      let v1 rx[1]
+      let v2 rx[channels]
+      ! Get first spectrum
+      get n1
+      ! Take cares of sign of velocity increment
+      if (velo_step.gt.0) then
+         if (v2.gt.v1) then
+            let vref v1
+         else
+            let vref v2
+         endif
+      else
+         if (v2.gt.v1) then
+            let vref v2
+         else
+            let vref v1
+         endif
+      endif
+      ! Loop over channels to find the 
+      for ic 1 to channels by 3
+         if (rx[ic].gt.vref.and.chover.eq.0) then
+            let chover ic
+         endif
+      next ! ic
+   endif
+endif
+exa chover
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+! Extract the spectra observed at the interesting frequency from the input file
+file out 'sname'-raw.apex single /overwrite
+file in SPT2319-55_CII-org.apex
+find
+set align f c
+if (found.gt.0) then
+   quiet
+   for ient 1 to found
+      get n
+      ! Only select spectrum that covers line (multiple tunings possible for CII
+      ! observations in this project)
+      if (sqrt((frequency-freqobs)**2).le.1000.) then
+         ! Kill edge channels and remove offset in ffts overlap region
+         extract 0.01*channels 0.96*channels c
+         ! Remove median value of each spectra => some kind of zero-order baselining without line information
+         compute med median ry[chover:channels]
+         let ry ry-med
+         let count count+1
+         write count
+      endif
+   next ! ient
+   verbose
+endif
+!
+! Add both ffts units, resample and subtract baseline
+! from combined spectrum for each integration
+file out 'sname'-bas.apex single /overwrite
+file in  'sname'-raw.apex
+let cnt 0
+for iscan 1 to count/2
+   ! Add both FFTS units for each integration
+   let n2 2*iscan
+   let n1 n2-1
+   find /number n1 n2
+   list
+   stitch /nocheck
+   ! Center the velocity scale to the redshifted frequency
+   modify frequency freqobs
+   ! Resample the velocity axis that has just been centered on the redshifted frequency
+   let nchan sqrt((rx[1]-rx[channels])**2)/20.0
+   let cench nchan/2
+   resample nchan cench 0.0 -20.0 velocity
+   ! Baseline
+   base basorder   
+   ! Test baseline quality and filter out bad spectra
+   let nup channels/10
+   for j 1 to 10
+      let ic1 1+(j-1)*nup
+      let ic2 j*nup
+      if (ic2.gt.channels) then
+          let ic2 channels
+      endif
+      compute sumch[j] sum ry[ic1:ic2]
+   next
+   compute tmin min sumch
+   compute tmax max sumch
+   compute rms rms ry
+   let var (tmax-tmin)/rms
+   exa sumch
+   exa tmin
+   exa tmax
+   exa rms
+   exa var
+   if (var.lt.20.and.tsys.gt.50) then
+      ! Good spectrum => keep it
+      let cnt cnt+1
+      write cnt
+   else
+      ! Bad spectrum => visually assess what's going on
+      plot
+!      pause
+   endif  
+next ! iscan
+say "Filtered out: "'count/2-cnt'" over "'count/2'" spectrum"
+pause
+!
+! Use bas file to create final spectrum
+file out 'sname'-mean.apex single /overwrite
+file in 'sname'-bas.apex
+find 
+average /resample /nocheck
+write 1
+plot
+pause
+smooth box 3
+plot
+draw window
+bas 0 /pl
+greg1\draw text -3. -1. "rms = "'nint(sigma*100000)/100'" mK" 1 0 /box 9
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

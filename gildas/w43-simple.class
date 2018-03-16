@@ -1,0 +1,63 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+! Short alias for useful commands
+symbol verbose "sic message class s+i"
+symbol quiet   "sic message class s-i"
+!
+! Extracting a subset of the data
+file out w43-extracted.apex single /overwrite
+file in W43-MM3+MM2-comb_smoothed.apex
+find /source W43-MM3+MM2 /line F280_OSB /tele AP-F302-XF04
+extract '293912.086-35' '293912.086+35' freq /index
+!
+! Looking at the averaged spectrum
+file in w43-extracted.apex
+find
+average /nocheck pos /resample
+plot
+!
+! Fixing the frequency and velocity axis
+file out w43-modified.apex single /overwrite
+file in w43-extracted.apex
+find
+quiet
+for ient 1 to found
+   get next
+   modify line CS
+   modify freq 293912.086
+   modify velo 90.14
+   write
+next ient
+verbose
+!
+! Baselining
+set unit v f
+set window 75 105 
+file out w43-baselined.apex single /overwrite
+file in w43-modified.apex
+find
+average /nocheck pos /resample
+plot
+draw window
+base 0 /plot
+!
+quiet
+for ient 1 to found
+   get next
+   base 0
+   write
+next ient
+verbose
+set unit f v
+!
+! Gridding the data
+let name w43
+file in w43-baselined.apex
+find
+table 'name' new
+let map%cell -5 5
+xy_map 'name'
+let type lmv
+go view
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

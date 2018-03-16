@@ -1,0 +1,210 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+set weight sigma
+set align f c
+!
+define real zmin
+define real zmax
+define real zcenter
+define real zline
+define real dzline
+define real zref
+define real velc
+!
+define real ymax
+define real ymin
+define real jyperk
+define real vmin
+define real vmax
+define real restfreq
+define real DL
+define real lline
+define real dlline
+define real jan
+define real djan
+define real lsol
+define real dlsol
+define real veloff
+define real dveloff
+define real nuobs
+define real dnuobs
+define real cf
+define real dcf
+define real mag
+!
+define real s
+define real ds
+define real dv
+define real v
+define real w
+define real dw
+define real f
+define real df
+!
+define real linewidth
+define real limit
+!
+let velc 299792.458
+set var gauss read
+set unit v
+!
+pen /col 0 /weight 2
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+let ymax 150.0
+let ymin -50.0
+let jyperk 41.0
+let vmax 2000
+let vmin -2000
+let restfreq 1900.5481e3
+let DL 50908.7
+let mag 1.0
+let zref 5.2929
+let linewidth 200.0 
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+file in SPT2319-55-mean.apex
+set line *
+set source *
+find
+get f
+!
+clear
+clear alpha
+!
+set mode x vmin vmax
+set mode y ymin/jyperk/1000 ymax/jyperk/1000
+set wind -linewidth linewidth
+!
+pen /col 0
+!
+!!!!!!!!!!READ/PROCESS DATA!!!!!!!!
+!
+set unit v
+file in SPT2319-55-sum.apex
+find
+get 1
+bas 1
+smooth box 2
+!
+!!!!!!!!!FIT LINE CENTER FREQ = REDSHIFT!!!!!!!
+!
+set unit f
+modify frequency restfreq/(zref+1)
+plot
+lines 0
+minimize
+iterate
+visualize
+!pause
+!
+let cf frequency+nfit[2]
+let dcf nerr[2]
+let zline restfreq/cf-1.0
+let dzline (restfreq/cf**2)*dcf
+let nuobs (frequency+nfit[2])/1e3
+let dnuobs nerr[2]/1e3
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+clear
+clear alpha
+g\set box 7 23 3 18
+set expand 1.3
+!
+set unit v
+!
+let zcenter restfreq/frequency-1
+let zmax zcenter+vmax/velc
+let zmin zcenter+vmin/velc
+!
+axis xUp zmin zmax /label p
+axis xLow vmin vmax 
+!
+axis yLeft  ymin ymax 
+axis yRight ymin/jyperk ymax/jyperk /label o
+!
+base 0
+for ic 1 to channels
+   if (ry[ic].eq.-1000.000) then
+      let ry[ic] 0.0
+   endif
+next ! ic
+!
+pen /col 0 /weight 2
+set plot histo
+spectrum 
+histo rx ry /base 0 /fill 12
+!
+box n n n
+lines 0
+minimize
+iterate
+visualize
+!
+pen /col 0 /weight 2
+greg1\label "Flux density [mJy]" /y 3.5
+greg1\label "Velocity Offset [km s\\u-1\\d]" /x 2.2
+greg1\draw text  2.5  0.0 "Ant. Temperature (T\dA\u*) [mK]" 5 90 /char 6  
+greg1\draw text  0.0  2.2 "Redshift" 5 0 /char 8
+greg1\draw text -1.0 -1.0 "[CII] SPT2319-55" 1 0 /char 9
+!
+ha SPT2319-55-CII /dev eps /overwrite
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+exa nfit
+let v nfit[3]
+let dv nerr[3]
+let w nfit[1]
+let dw nerr[1]
+let f nfit[1]*jyperk
+let df nerr[1]*jyperk
+!
+let veloff (zline-zref)*velc+nfit[2]
+let dveloff nerr[2]
+!
+let lline 3.25E7*f*(DL**2)/(((restfreq*1E-3)**2)*(1+zline))
+let dlline 3.25E7*df*(DL**2)/(((restfreq*1E-3)**2)*(1+zline))
+let lline lline/1E10/mag
+let dlline dlline/1E10/mag
+!
+let lsol  1.04E-3*f*(restfreq*1E-3)/(1+zline)*DL**2
+let dlsol 1.04E-3*df*(restfreq*1E-3)/(1+zline)*DL**2
+let lsol lsol/1E10/mag
+let dlsol dlsol/1E10/mag
+!
+let s 1/1.06*w/v
+let ds 1/1.06*sqrt((dw/v)**2+(w*dv/v**2)**2)
+!
+let jan jyperk/1.06*w/v
+let djan jyperk/1.06*sqrt((dw/v)**2+(w*dv/v**2)**2)
+!
+say ##################################
+say redshift: 'zline' +/- 'dzline'
+say veloffset: 'veloff' +/- 'dveloff' km/s
+say nu obs: 'nuobs' +/- 'dnuobs' GHz
+say " "
+say dv: 'nfit[3]' +/- 'nerr[3]' km/s
+say T: '1000*s' +/- '1000*ds' mK
+say S: '1000*jan' +/- '1000*djan' mJy
+say I: 'f' +/- 'df' Jy km/s
+say " "
+say L: 'lline' +/- 'dlline' 10^10 K kms pc^2
+say Lsol: 'lsol' +/- 'dlsol' 10^10 Lsol
+say ############################
+!
+set unit f
+sic output "SPT2319-55-CII-spectrum-new.dat"
+   say "### APEX CII SPT2319-55"
+   say "### Freq GHz, flux density in mJy"
+   for ic 1 to channels
+      if (ry[ic].gt.-900) then
+         say '(rx[ic]+frequency)/1000.0'" "'ry[ic]*jyperk*1000'
+      endif
+   next !ic
+sic output
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

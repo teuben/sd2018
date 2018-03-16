@@ -1,0 +1,77 @@
+! H2O maser sideband suppression level
+
+! From E. Humphreys et al., A&A, 603, A77, 2017
+
+! Online file has bad calibration, but baseline subtraction in narrow window
+! is OK.
+
+file in E-095.F-9806A-2015-2015-07-15-R-Aql.apex
+
+! Overview plot
+set unit f
+set align f c
+set mode x 169894.572 185904.242
+set mode y -2 8
+
+find /sou r_aql /line user_tuning* /off 0 0
+! Get the total frequency coverage. Needs resampling and avoiding checking the
+! line name which is different for the opposite sideband in APEX data.
+average /resample /nocheck line
+pen 0
+plot
+
+! Plot the 4 sub-bands
+find /sou r_aql /tel ap-g101-xf01 /line user_tuning* /off 0 0
+average /resample /nocheck line
+pen 1
+spectrum y 1
+
+find /sou r_aql /tel ap-g103-xf05 /line user_tuning* /off 0 0
+average /resample /nocheck line
+pen 2
+spectrum y 1
+
+find /sou r_aql /tel ap-g101-xf02 /line user_tuning* /off 0 0
+average /resample /nocheck line
+pen 3
+spectrum y 2
+
+find /sou r_aql /tel ap-g103-xf06 /line user_tuning* /off 0 0
+average /resample /nocheck line
+pen 4
+spectrum y 2
+
+pen 0
+say "Composite spectrum (black) and components with overlap (colored)."
+pause
+
+! H2O line
+find /sou r_aql /tel ap-g103-xf05 /line user_tuning* /off 0 0
+average
+set unit f
+set align f c
+!set mode x 181899.07  184400.65
+set mode x 183218 183386
+set mode y -1 8
+set window -594.2 -583.6
+base 0
+plot
+
+! Opposite sideband
+find /sou r_aql /tel ap-g101-xf01 /line user_tuning* /off 0 0
+! Slight change in tuning frequency for some data needs /resample option.
+average /resample
+modify bands
+base 0
+pen 1
+spectrum
+pen 0
+say "Black: signal; Red: image"
+pause
+
+mul 30
+smo bo 10
+pen 2
+spectrum
+pen 0
+say "Green: image x 30; smoothed"

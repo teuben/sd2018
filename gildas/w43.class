@@ -1,0 +1,305 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+begin procedure w43-explore-f280_0SB
+  find /source W43-MM2-ON /line f280_OSB
+  list /toc
+!  average ! => error
+  find /source W43-MM2-ON /line f280_OSB /tele AP-F302-XF04
+  list /toc
+  average
+  plot
+  set mode x current
+  find /source W43-MM2-ON /line f280_OSB /tele AP-F302-XF03
+  list /toc
+  average
+  spectrum /pen 1
+  pause
+end procedure w43-explore-f280_0SB
+!
+begin procedure w43-explore-freq
+  set mode x &1-35 &1+35
+  plot
+  use in cdms
+  lid /delta 2 /energy &2
+  pause
+end procedure w43-explore-freq
+!
+begin procedure w43-explore-f302-xf03
+  set mode x total
+  find /source W43-MM2-ON /line f280_OSB /tele AP-F302-XF03
+  list /toc
+  average
+  plot
+  pause
+  ! Warning: Tentative line attribution!
+  @ w43-explore-freq 290248 250 ! CH3OH, vt=0-2       290248.685
+  @ w43-explore-freq 290307 250 ! CH3OH, vt=0-2       290307.281
+  @ w43-explore-freq 290623 250 ! H2CO                290623.405
+  @ w43-explore-freq 290249 250 ! CH3OH, vt=0-2       290248.685
+  @ w43-explore-freq 291238 250 ! H2CO                291237.766
+  @ w43-explore-freq 291380 250 ! H2CO                291380.442
+  @ w43-explore-freq 291839 250 ! OCS, v=0            291839.653
+  @ w43-explore-freq 291948 250 ! H2CO                291948.067
+  @ w43-explore-freq 292672 250 ! CH3OH, vt=0-2       292672.889
+  ! Warning: Tentative line attribution!
+end procedure w43-explore-f302-xf03
+!
+begin procedure w43-explore-f302-xf04
+  set mode x total
+  find /source W43-MM2-ON /line f280_OSB /tele AP-F302-XF04
+  list /toc
+  average
+  plot
+  pause
+  ! Warning: Tentative line attribution!
+  @ w43-explore-freq 291839 250 ! OCS, v=0            291839.653
+  @ w43-explore-freq 291948 250 ! H2CO                291948.067
+  @ w43-explore-freq 292672 250 ! CH3OH, vt=0-2       292672.889
+  @ w43-explore-freq 293912 250 ! CS, v=0-4           293912.086
+  ! Warning: Tentative line attribution!
+end procedure w43-explore-f302-xf04
+!
+begin procedure w43-explore-systemic-velocity
+  find /source W43-MM2-ON /line f280_OSB /tele AP-F302-XF03
+  list /toc
+  average
+  set mode x &1-35 &1+35
+  plot
+  pause
+  modify freq &1
+  plot
+  pause
+  set unit v f
+  plot
+  pause
+  set window 70 110
+  draw window
+  base 1 /plot
+  pause
+  plot
+  method gauss
+  minimize
+  visualize
+  pause
+  modify velo 90.14
+  plot
+  pause
+  set unit f v
+  @ w43-explore-freq 290623 100 ! H2CO
+end procedure w43-explore-systemic-velocity
+!
+begin procedure w43-explore
+  file in W43-MM3+MM2-comb_smoothed.apex
+  find
+  list /toc
+  list /toc scan
+  find /source W43-MM2-ON
+  list /toc
+  list
+  !
+!  @ w43-explore-f280_0SB
+!  @ w43-explore-f302-xf03
+!  @ w43-explore-f302-xf04
+  @ w43-explore-systemic-velocity 290623.405 ! H2CO                
+end procedure w43-explore
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+begin procedure w43-init
+  ! Short alias for useful commands
+  symbol verbose "sic message class s+i"
+  symbol quiet   "sic message class s-i"
+  ! Go back to CLASS global defaults
+  set default
+  if .not.exist(w43) then
+     define structure w43 /global
+     define character w43%line*16 w43%tmpdir*256 /global
+     define double w43%freq w43%bandwidth w43%velo /global
+  endif
+  let w43%line &1
+  let w43%tmpdir "tmp/"'w43%line'
+  sic mkdir 'w43%tmpdir'
+  let w43%freq &2
+  let w43%bandwidth &3
+  let w43%velo 90.14
+end procedure w43-init
+!
+begin procedure w43-consistency
+  file in 'w43%tmpdir'"/step&1"
+  find
+  consistency /nocheck pos
+end procedure w43-consistency
+!
+begin procedure w43-cover
+  file in 'w43%tmpdir'"/step&1"
+  find
+  go where
+end procedure w43-cover
+!
+begin procedure w43-average
+  file in 'w43%tmpdir'"/step&1"
+  find
+  average /nocheck pos /resample
+  plot
+end procedure w43-average
+!
+begin procedure w43-grid
+  let name 'w43%tmpdir'"/step"'1+&1'
+  file in 'w43%tmpdir'"/step&1"
+  find
+  table 'name' new
+  let map%cell -5 5
+  xy_map 'name'
+  let type lmv
+  go view
+end procedure w43-grid
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+begin procedure w43-import
+  file out 'w43%tmpdir'"/step1" single /overwrite
+  file in W43-MM3+MM2-comb_smoothed.apex
+  find /source W43-MM3+MM2 /line &1 /tele AP-&2
+  extract 'w43%freq-0.5*w43%bandwidth' 'w43%freq+0.5*w43%bandwidth' freq /index
+end procedure w43-import
+!
+begin procedure w43-modify
+  file out 'w43%tmpdir'"/step2" single /overwrite
+  file in 'w43%tmpdir'"/step1"
+  find
+  quiet
+  for ient 1 to found
+     get next
+     modify line 'w43%line'
+     modify freq 'w43%freq'
+     modify velo 'w43%velo'
+     write
+  next ient
+  verbose
+end procedure w43-modify
+!
+begin procedure w43-baseline
+  set unit v f
+  set window &2 &3 
+  file out 'w43%tmpdir'"/step3" single /overwrite
+  file in 'w43%tmpdir'"/step2"
+  find
+  !
+  average /nocheck pos /resample
+  plot
+  draw window
+  base 0 /plot
+  !
+  quiet
+  for ient 1 to found
+     get next
+     base &1
+     write
+  next ient
+  verbose
+  !
+  set unit f v
+end procedure w43-baseline
+!
+begin procedure w43-clip
+  define character inname*256 ouname*256
+  let inname 'w43%tmpdir'"/step&1"
+  let ouname 'w43%tmpdir'"/step"'1+&1'
+  !
+  let name 'inname'
+  let type wei
+  let scale 0
+  go bit
+  !
+  define double wmin
+  let wmin &2
+  let type lmv
+  sic copy 'inname'"."'type' 'ouname'"."'type'
+  !
+  define image wei 'inname'".wei" read
+  define image out 'ouname'"."'type' write
+  for iplane 1 to out%dim[3]
+     let out[iplane] out%blank[1] /where wei.le.wmin
+  next iplane
+  delete /var wei out
+  !
+  let name 'ouname'
+  vector\header 'name'"."'type' /extrema
+  go view
+end procedure w43-clip
+!
+begin procedure w43-export
+  sic mkdir red
+  let name "red/"'w43%line'
+  let type lmv
+  sic copy 'w43%tmpdir'"/step&1."'type' 'name'"."'type'
+  go view
+end procedure w43-export
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+begin procedure w43-reduce-step-by-step
+  @ w43-init cs 293912.086 70
+  @ w43-import F280_OSB F302-XF04
+  !
+  @ w43-consistency 1
+  pause
+  @ w43-cover 1
+  pause
+  @ w43-average 1
+  pause
+  @ w43-grid 1
+  !
+  @ w43-modify
+  @ w43-average 2
+  pause
+  !
+  @ w43-baseline 0 75 105
+  @ w43-average 3
+  pause
+  !
+  @ w43-grid 3
+  @ w43-clip 4 7e-5
+  !
+  @ w43-export 5
+end procedure w43-reduce-step-by-step
+!
+begin procedure w43-reduce-one
+  @ w43-init &3 &4 &5 ! example: cs 293912.086
+  @ w43-import &1 &2  ! example: F280_OSB F302-XF04
+  !
+  @ w43-consistency 1
+  @ w43-cover 1
+  @ w43-average 1
+  !
+  @ w43-modify
+  @ w43-average 2
+  !
+  @ w43-baseline &6 &7 &8 ! example: 0 75 105
+  @ w43-average 3
+  !
+  @ w43-grid 3
+  @ w43-clip 4 7e-5
+  !
+  @ w43-export 5
+end procedure w43-reduce-one
+!
+begin procedure w43-reduce-pipe
+  @ w43-reduce-one f280_osb f302-xf03   ch3oh-1 290248.685 70   0 65 105
+  @ w43-reduce-one f280_osb f302-xf03   ch3oh-2 290307.281 70   0 65 105
+  @ w43-reduce-one f280_osb f302-xf03   h2co-1  290623.405 70   0 75 105
+  @ w43-reduce-one f280_osb f302-xf03   ch3oh-3 290248.685 70   0 65 105
+  @ w43-reduce-one f280_osb f302-xf03   h2co-2  291237.766 70   0 75 105
+  @ w43-reduce-one f280_osb f302-xf03   h2co-3  291380.442 70   0 75 105
+  @ w43-reduce-one f280_osb f302-xf03   ocs     291839.653 70   0 75 105
+  @ w43-reduce-one f280_osb f302-xf03   h2co-4  291948.067 70   0 75 105
+  @ w43-reduce-one f280_osb f302-xf03   ch3oh-4 292672.889 50   0 65 105
+end procedure w43-reduce-pipe
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+@ w43-explore
+@ w43-reduce-step-by-step
+@ w43-reduce-pipe
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

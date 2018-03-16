@@ -1,0 +1,81 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+! Extragalactic CII line in the strongly lensed galaxy SPT2319-55
+! APEX wobbler observations
+! From Gullberg et al., MNRAS 449, 2883–2900, 2015
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+set plot hist
+set weight t
+set mode x auto
+set mode y auto
+set bad and
+set match 5.0
+!
+define int nchan 
+define int n1 n2
+define int cench
+define int basorder 
+define real baswin
+define real freqobs
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+symbol sname SPT2319-55
+set source 'sname'
+set line CII2319-55
+let baswin 500 ! [km/s]
+let freqobs 1900.53726e3/(1+5.2929) ! [MHz] rest freq / (1+redshift)
+!
+sic delete 'sname'"-raw.apex"
+sic delete 'sname'"-bas.apex"
+!
+let basorder 1
+!
+set unit v f
+set wind -1*baswin baswin
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+! Extract the spectra observed at the interesting frequency from the input file
+file out 'sname'-raw.apex single /overwrite
+file in SPT2319-55_CII-org.apex
+find
+!
+! Add both ffts units, resample and subtract baseline
+! from combined spectrum for each integration
+file out 'sname'-bas.apex single /overwrite
+for iscan 1 to found/2
+   ! Add both FFTS units for each integration
+   let n2 2*iscan
+   let n1 n2-1
+   find /number n1 n2
+   list
+   stitch /nocheck
+   ! Center the velocity scale to the redshifted frequency
+   modify frequency freqobs
+   ! Resample the velocity axis that has just been centered on the redshifted frequency
+   let nchan abs(rx[1]-rx[channels])/20.0
+   let cench nchan/2
+   resample nchan cench 0.0 -20.0 velocity
+   ! Baseline
+   base basorder   
+   write
+next ! iscan
+!
+! Use bas file to create final spectrum
+file out 'sname'-mean.apex single /overwrite
+file in 'sname'-bas.apex
+find 
+average /resample /nocheck
+write 1
+plot
+pause
+smooth box 3
+plot
+draw window
+bas 0 /pl
+greg1\draw text -3. -1. "rms = "'nint(sigma*100000)/100'" mK" 1 0 /box 9
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
