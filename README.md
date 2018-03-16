@@ -8,7 +8,7 @@ registration was closed on Feb 1, 2018.
 
 The idea is that the computing information here will supersede what
 you might read on the ESO website, particularly during the workshop
-days.
+days..
 
 
 ## Software needed
