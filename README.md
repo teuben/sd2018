@@ -1,17 +1,16 @@
 # sd2018
 
-material for the
+This was material for the
 [SD2018](https://www.eso.org/sci/meetings/2018/SingleDish2018.html)
-workshop, please note that until published, nothing is final here, as
-the tutorials and talks are still under discussion. Officially
-registration was closed on Feb 1, 2018.
-
-The idea is that the computing information here will supersede what
-you might read on the ESO website, particularly during the workshop
-days..
+workshop, where all the final presentation (some draft versions are
+available here as well) are available. Some other material (scripts and
+tutorials) are left here "as is" but likely available in improved
+versions in their own original locations (e.g. CLASS and CASA/QAC).
 
 
 ## Software needed
+
+See also in their respective sub-directories 
 
    * CASA: https://casa.nrao.edu/casa_obtaining.shtml. The current release is 5.1.2 but we 5.1.1 is ok as well.
       * QAC, TP2VIS, SD2VIS are components we will likely need to have installed as well.
@@ -27,6 +26,6 @@ and recommended
 
 ## Data needed
 
-TBD   - see [README_SD2018_data](README_SD2018_data) for more details
+see [README_SD2018_data](README_SD2018_data) for more details
 
-Again, we will have a USB and portable HDD during the meeting for copying the large datasets.
+We will have a USB and portable HDD during the meeting for copying the large datasets.
