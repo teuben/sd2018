@@ -61,6 +61,10 @@ https://almascience.eso.org/almadata/sciver/M100Band3ACA/M100_Band3_TP_Uncalibra
 https://almascience.eso.org/almadata/sciver/M100Band3ACA/M100_Band3_TP_ampcal_UncalibratedData.tgz  Tutorial 1      4.6G 
 
 https://drive.google.com/drive/folders/17jzgdZ2_xNWL-w6FXG3mBE7Y1GIEX0s4                            Tutorial 3a/3b  [4 files, 1.1GB]
+   -rw-rw-r-- 1 teuben teuben   2795372 Mar 13 16:09 OMC1-LineSurvey.apex.tar
+   -rw-rw-r-- 1 teuben teuben 165621760 Mar 13 16:09 R-Aql.tar
+   -rw-rw-r-- 1 teuben teuben 324761600 Mar 13 16:09 SPT2319-55-CII-Z5.tar
+   -rw-rw-r-- 1 teuben teuben 603571865 Mar 13 16:12 W43-MM3+MM2-comb_smoothed.apex.tar
 
 https://almascience.eso.org/almadata/sciver/M100Band3_12m/M100_Band3_12m_CalibratedData.tgz         Tutorial 4/5   15G
 https://almascience.eso.org/almadata/sciver/M100Band3ACA/M100_Band3_7m_CalibratedData.tgz           Tutorial 4/5    4.8G
