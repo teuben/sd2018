@@ -90,7 +90,12 @@ routines/files.
 
 - Add the directories apexpro, apexpro/SCANAM_ARTEMIS/pro_artemis, 
 apexpro/SCANAM_ARTEMIS/pro_common_inst, and apexpro/SCANAM_ARTEMIS/pro_format_input 
-to your IDL_PATH. You should also include the IDL Astronomy library to IDL_PATH.
+to your IDL_PATH (or simply add +apexpro to recursively add apexpro and all the
+subdirectories below it)
+
+- You should also include the IDL Astronomy library to IDL_PATH. If it is not installed
+on your system, you can get this library from: https://idlastro.gsfc.nasa.gov/
+
 
 - You should then be ready to start reducing data with APIS.
 Run IDL from, e.g., directory apexpro. An example of a typical data reduction 
