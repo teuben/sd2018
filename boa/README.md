@@ -12,6 +12,10 @@ Note that this has been successfully installed on various flavours of
 linux, but this does NOT compile on Mac OS X - although it does work
 on a virtual machine running linux on a Mac.
 
+A collection of example commands with detailed comments is provided
+in the file boa_examply.py in this directory.
+
+
 
 ### Install
 
@@ -62,11 +66,11 @@ Within your « work_dir », you should also create an "apexdata" directory
 (+ sub-directories) where data at various stages of the reduction process 
 and other useful files will be stored:
 
- work_dir/apexdata/rawdata/	  ; this is where your ArTeMiS rawdata should be copied
- work_dir/apexdata/obslogs/	  ; where your available observing logs should be copied
- work_dir/apexdata/basic_xdr/	  ; where rawdata in IDL format will be stored
- work_dir/apexdata/map_otf_xdr/  ; where reduced data in IDL format will be stored
- work_dir/apexdata/map_otf_fits/ ; where masks and output fits files should be stored
+ work_dir/apexdata/rawdata/	  | ; this is where your ArTeMiS rawdata should be copied
+ work_dir/apexdata/obslogs/	  | ; where your available observing logs should be copied
+ work_dir/apexdata/basic_xdr/	  | ; where rawdata in IDL format will be stored
+ work_dir/apexdata/map_otf_xdr/   | ; where reduced data in IDL format will be stored
+ work_dir/apexdata/map_otf_fits/  | ; where masks and output fits files should be stored
  
 More details may be found in "pipeline_IDL_artemis_october2014_v1.pdf".
 
