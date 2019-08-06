@@ -6,6 +6,8 @@ workshop, where all the final presentation (some draft versions are
 available here as well) are available. Some other material (scripts and
 tutorials) are left here "as is" but likely available in improved
 versions in their own original locations (e.g. CLASS and CASA/QAC).
+A more focused meeting on just Data Combination was held in 2019 in Leiden,
+they also keep their material in [dc2019](https://github.com/teuben/dc2019).
 
 
 ## Software needed
